@@ -35,7 +35,6 @@ function ReceiveInventoryDataConfig(data)
     if InventoryUI == nil then
         return
     end
-    print(data);
     ExecuteWebJS(InventoryUI, "getInventoryItemsConfig("..data..")")
 end
 AddRemoteEvent("Survival:Inventory:ReceiveInventoryDataConfig", ReceiveInventoryDataConfig)

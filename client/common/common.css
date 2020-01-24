@@ -45,6 +45,7 @@ body {
 
 .inventory-content {
     text-align: left;
+    position: relative;
 }
 
 .inventory-content-square {
@@ -54,4 +55,21 @@ body {
     display: inline-block;
     border: 1px solid gray;
     cursor: pointer;
+}
+
+.inventory-content-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.item-object {
+    background-color: #0000003a;
+}
+
+.item-object img {
+    
 }
