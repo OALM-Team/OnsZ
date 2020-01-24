@@ -1,0 +1,57 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.large-shadow-container {
+    box-shadow: 0px -20px 110px 100px #000000;
+    text-align: center;
+}
+
+.title {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: rgb(223, 184, 10);
+    font-size: 22px;
+    text-transform: uppercase;
+}
+
+.window-header {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    padding: 15px;
+    font-size: 22px;
+    color: rgb(223, 184, 10);
+    text-transform: uppercase;
+    background-color: #0000009f;
+    margin-bottom: 10px;
+    position: relative;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+}
+
+.window-header .right {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    color: white;
+}
+
+.window-content {
+    padding: 10px;
+    font-size: 24px;
+    color: white;
+    background-color: #0000009f;
+}
+
+.inventory-content {
+    text-align: left;
+}
+
+.inventory-content-square {
+    background-color: #00000096;
+    width: 75px;
+    height: 75px;
+    display: inline-block;
+    border: 1px solid gray;
+    cursor: pointer;
+}

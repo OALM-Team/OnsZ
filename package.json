@@ -1,0 +1,41 @@
+{
+	"author": "Voltaism",
+	"version": "3.1",
+	"server_scripts": [
+		"client/common/json.lua",
+		"server/cinematic/cinematic.lua",
+		"server/spawn/spawn.lua",
+		"server/teleportPoint/teleportPoint.config.lua",
+		"server/teleportPoint/teleportPoint.lua",
+		"server/weather/weather.lua",
+		"server/zombie/zombie.lua",
+		"client/inventory/inventory.config.lua",
+		"server/inventory/inventory.lua"
+	],
+    "client_scripts": [
+		"client/common/json.lua",
+		"client/player/player.lua",
+		"client/cinematic/cinematic.lua",
+		"client/cinematic/cinematic.texts.lua",
+		"client/weather/weather.lua",
+		"client/zombie/zombie.lua",
+		"client/inventory/inventory.lua",
+		"client/inventory/inventory.config.lua"
+	],
+	"files": [
+		"client/common/common.css",
+		"client/common/common.js",
+		"client/common/animate.css",
+
+		"client/cinematic/ui/cinematic.html",
+		"client/cinematic/ui/cinematic.js",
+		"client/cinematic/sounds/ambiance_1.mp3",
+		"client/cinematic/sounds/ambiance_2.mp3",
+		
+		"client/zombie/sounds/effect_1.mp3",
+		"client/zombie/sounds/effect_2.mp3",
+
+		"client/inventory/ui/inventory.html",
+		"client/inventory/ui/inventory.js"
+	]
+}
