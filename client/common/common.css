@@ -23,7 +23,7 @@ body {
     color: rgb(223, 184, 10);
     text-transform: uppercase;
     background-color: #0000009f;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     position: relative;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
@@ -68,8 +68,23 @@ body {
 
 .item-object {
     background-color: #0000003a;
+    pointer-events: all;
+    cursor: pointer;
+    text-align: center;
+}
+
+.item-object {
+    transition: 0.3s;
+}
+
+.item-object:hover {
+    box-shadow: inset 0px 0px 0px 5px rgb(223, 184, 10);
 }
 
 .item-object img {
-    
+    transition: 0.3s;
+}
+
+.item-object img:hover {
+    transform: scale(0.85);
 }
