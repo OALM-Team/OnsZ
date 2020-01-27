@@ -3,26 +3,23 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="../../common/common.css">
+	<link rel="stylesheet" href="../../common/jquery-ui.css">
 	<link rel="stylesheet" href="../../common/animate.css">
+    <script src="../../common/jquery-1.12.4.js"></script>
+    <script src="../../common/jquery-ui.js"></script>
     <script src="../../common/common.js"></script>
+    <script src="../../common/fontawesome.js"></script>
 </head>
 <body>
-    <div style="margin-top: 100px;">
+    <div id="context-menu-item" class="context-menu">
+        <div class="context-menu-item" data-choice="use">Utiliser</div>
+        <div class="context-menu-item" data-choice="throw">Jeter</div>
+    </div>
+    <div style="margin-top: 20px;">
         <!-- Main inventory -->
-        <div class="animated fadeIn" style="width: 485px; margin-right: auto; margin-left: auto;">
-            <div class="window-header">
-                INVENTAIRE
-                <div class="right">
-                    0/25
-                </div>
-            </div>
-            <div class="window-content">
-                <div id="inventory-1-content" class="inventory-content">
-                    <div id="inventory-1-content-overlay" class="inventory-content-overlay"></div>
-                    <div id="inventory-1-content-slots">
-                        
-                    </div>
-                </div>
+        <div class="animated bounceIn" style="width: 475px; margin-right: auto; margin-left: auto; animation-duration: 0.7s;">
+            <div id="inventory-storage-list">
+
             </div>
         </div>
     </div>

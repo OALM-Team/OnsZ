@@ -1,0 +1,53 @@
+#container {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 20px;
+}
+
+.icon-container {
+    display: inline;
+}
+
+.card {
+    position: relative;
+    font-family: 'GeosansLight';
+    background-color: #222222;
+    color: white;
+    padding: 10px;
+    text-align: left;
+    vertical-align: top;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.info-icon {
+    width: 15px;
+    height: 15px;
+    vertical-align: top;
+}
+
+.title {
+    color: white;
+    font-size: 14px;
+    font-family: 'GeosansLight';
+    font-weight: bold;
+}
+
+.content {
+    font-family: Arial, Helvetica, sans-serif;
+    max-width: 300px;
+    font-size: 12px;
+}
+
+.timeout-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.timeout-bar-inner {
+    height: 4px;
+    width: 100%;
+}

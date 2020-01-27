@@ -2,6 +2,7 @@
 	"author": "Voltaism",
 	"version": "3.1",
 	"server_scripts": [
+		"server/database.lua",
 		"client/common/json.lua",
 		"server/cinematic/cinematic.lua",
 		"server/spawn/spawn.lua",
@@ -10,7 +11,8 @@
 		"server/weather/weather.lua",
 		"server/zombie/zombie.lua",
 		"client/inventory/inventory.config.lua",
-		"server/inventory/inventory.lua"
+		"server/inventory/inventory.lua",
+		"server/lootboxes/lootboxes.lua"
 	],
     "client_scripts": [
 		"client/common/json.lua",
@@ -20,12 +22,17 @@
 		"client/weather/weather.lua",
 		"client/zombie/zombie.lua",
 		"client/inventory/inventory.lua",
-		"client/inventory/inventory.config.lua"
+		"client/inventory/inventory.config.lua",
+		"client/globalui/globalui.lua"
 	],
 	"files": [
+		"client/common/fonts/GeosansLight.ttf",
 		"client/common/common.css",
+		"client/common/jquery-ui.css",
 		"client/common/common.js",
 		"client/common/animate.css",
+		"client/common/jquery-1.12.4.js",
+		"client/common/jquery-ui.js",
 
 		"client/cinematic/ui/cinematic.html",
 		"client/cinematic/ui/cinematic.js",
@@ -36,6 +43,18 @@
 		"client/zombie/sounds/effect_2.mp3",
 
 		"client/inventory/ui/inventory.html",
-		"client/inventory/ui/inventory.js"
+		"client/inventory/ui/inventory.js",
+		"client/inventory/ui/icons/apple.png",
+		"client/inventory/ui/icons/pickaxe.png",
+		"client/inventory/ui/icons/sandwish.png",
+		"client/inventory/ui/icons/water.png",
+		"client/inventory/ui/icons/torchlight.png",
+		"client/inventory/ui/icons/gas.png",
+
+		"client/globalui/notif_1.mp3",
+		"client/globalui/ui/globalui.html",
+		"client/globalui/ui/globalui.js",
+		"client/globalui/ui/globalui.css",
+		"client/globalui/ui/info.png"
 	]
 }

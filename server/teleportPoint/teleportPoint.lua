@@ -21,5 +21,6 @@ AddEvent("OnPlayerPickupHit", OnPlayerPickupHit)
 
 function GetOutSafeBunker(player)
     CallRemoteEvent(player, "Survival:Cinematic:StopIntroMusic")
+    CallRemoteEvent(player, "Survival:GlobalUI:CreateNotification", "#ffc003", "Déplacement", "Vous êtes sortis du bunker, houra !", 5000)
 end
 AddEvent("Survival:Player:GetOutSafeBunker", GetOutSafeBunker)

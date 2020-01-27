@@ -1,4 +1,367 @@
+Storages = {}
+StorageGridConfig = nil
+
+function tablelength(T)
+    local count = 0
+    for _ in pairs(T) do count = count + 1 end
+    return count
+end
+
+
+AddCommand("additem", function(player, item)
+    AddItem(GetStoragesByCharacterId(GetPlayerPropertyValue(player, 'characterID'))[1].id, item, player)
+end)
+
 function ClientRequestInventoryData(player)
-    CallRemoteEvent(player, "Survival:Inventory:ReceiveInventoryDataConfig", jsonencode(InventoryItems))
+    for k, configItem in pairs(InventoryItems) do
+        CallRemoteEvent(player, "Survival:Inventory:ReceiveInventoryDataConfig", k, jsonencode(configItem))
+    end
+
+    for _, storage in pairs(GetStoragesByCharacterId(GetPlayerPropertyValue(player, 'characterID'))) do
+        SendStorageConfig(player, storage.id)
+    end
 end
 AddRemoteEvent("Survival:Inventory:ClientRequestInventoryData", ClientRequestInventoryData)
+
+function GetStoragesByCharacterId(characterId)
+    local characterStorages = {}
+    for _, storage in pairs(Storages) do
+        if storage.id_character == characterId then
+            table.insert(characterStorages, storage)
+        end
+    end
+    return characterStorages
+end
+
+function SendStorageConfig(player, storageId) 
+    local storage = Storages[storageId]
+    CallRemoteEvent(player, "Survival:Inventory:ReceiveInventoryStorageConfig", storage.id, storage.name, storage.slots)
+    for _, item in pairs(storage.items) do
+        CallRemoteEvent(player, "Survival:Inventory:ReceiveInventoryItem", storage.id, item.uid, item.itemId, item.slot)
+    end
+end
+
+function FindItemInStorage(storageId, uid)
+    local storage = Storages[storageId]
+    for _, item in pairs(storage.items) do
+        if item.uid == uid then
+            return item
+        end
+    end
+    return nil
+end
+
+function FindItemKeyInStorage(storageId, uid)
+    local storage = Storages[storageId]
+    for k, item in pairs(storage.items) do
+        if item.uid == uid then
+            return k
+        end
+    end
+    return nil
+end
+
+function uuid()
+    math.randomseed(os.time())
+    local template ='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+    return string.gsub(template, '[xy]', function (c)
+        local v = (c == 'x') and  math.random(0, 0xf) or  math.random(8, 0xb)
+        return string.format('%x', v)
+    end)
+end
+
+function AddItem(storageId, itemId, player)
+    local storage = Storages[storageId]
+    local availableSlots = GetAvailableSlots(storageId)
+    local fitSlot = nil
+    for _,s in pairs(availableSlots) do
+        if CanFitInThisSlot(storageId, itemId, s, -1) then
+            fitSlot = s
+            break
+        end
+    end
+    if fitSlot == nil then
+        if player ~= nil then
+            CallRemoteEvent(player, "Survival:GlobalUI:CreateNotification", "#ff0051", "Pas assez d'espace", "Faite du rangement ou libérer de la place dans votre inventaire", 10000)
+        end
+        return nil
+    end
+    print("add item to slot: ".. fitSlot)
+    local createdItem = {
+        uid = uuid(),
+        itemId = itemId,
+        slot = fitSlot
+    }
+    table.insert(storage.items, createdItem)
+    UpdateStorage(storage)
+    if player ~= nil then
+        local template = InventoryItems[itemId]
+        CallRemoteEvent(player, "Survival:GlobalUI:CreateNotification", "#05ed4e", "Nouvelle objet", template.name.." est désormais dans votre inventaire", 5000)
+        CallRemoteEvent(player, "Survival:Inventory:ReceiveInventoryItem", storage.id, createdItem.uid, createdItem.itemId, createdItem.slot)
+    end
+    return createdItem
+end
+
+function RequestThrowItem(player, storageId, itemId)
+    local storage = Storages[storageId]
+    local item = FindItemInStorage(storageId, itemId)
+    if item == nil then
+        return
+    end
+    local template = InventoryItems[item.itemId]
+    local itemKey = FindItemKeyInStorage(storageId, itemId)
+    table.remove(storage.items, itemKey)
+    UpdateStorage(storage)
+    if player ~= nil then
+        CallRemoteEvent(player, "Survival:GlobalUI:CreateNotification", "#ffc003", "Au sol", template.name.." est désormais au sol", 5000)
+        CallRemoteEvent(player, "Survival:Inventory:RemoveItem", storage.id, itemId)
+    end
+end
+AddRemoteEvent("Survival:Inventory:ServerRequestThrowItem", RequestThrowItem)
+
+function GetPlayerByStorageId(storageId)
+    return 1
+end
+
+function ServerRequestChangeSlotItem(player, storageId, uid, toSlot)
+    local storage = Storages[storageId]
+    local item = FindItemInStorage(storageId, uid)
+    if item == nil then
+        return
+    end
+    if not CanFitInThisSlot(storageId, item.itemId, tonumber(toSlot), item.uid) then
+        print("item cant fit in this slot, cancel the move")
+        return
+    end
+    item.slot = tonumber(toSlot);
+    UpdateStorage(storage)
+    --print(jsonencode(GetUnavailableSlots(storageId, -1)))
+    print("item moved to slot: "..item.slot)
+end
+AddRemoteEvent("Survival:Inventory:ServerRequestChangeSlotItem", ServerRequestChangeSlotItem)
+
+function ServerRequestChangeInventorySlotItem(player, storageId, toStorageId, uid, toSlot)
+    local storage = Storages[storageId]
+    local toStorage = Storages[toStorageId]
+    local item = FindItemInStorage(storageId, uid)
+    if item == nil then
+        return
+    end
+    if not CanFitInThisSlot(toStorageId, item.itemId, tonumber(toSlot), item.uid) then
+        print("item cant fit in this slot, cancel the move")
+        return
+    end
+    
+    local itemKey = FindItemKeyInStorage(storageId, uid)
+    table.remove(storage.items, itemKey)
+
+    item.slot = tonumber(toSlot);
+    table.insert(toStorage.items, item)
+
+    UpdateStorage(toStorage)
+    UpdateStorage(storage)
+
+    if player ~= nil then
+        local template = InventoryItems[item.itemId]
+        if toStorage.id_character ~= storage.id_character then
+            if toStorage.id_character == GetPlayerPropertyValue(player, 'characterID') then
+                CallRemoteEvent(player, "Survival:GlobalUI:CreateNotification", "#05ed4e", "Nouvelle objet", template.name.." est désormais dans votre inventaire", 5000)
+            else
+                CallRemoteEvent(player, "Survival:GlobalUI:CreateNotification", "#ffc003", "Déposer", template.name.." est désormais dans le conteneur", 5000)
+            end
+        end
+    end
+
+    --print(jsonencode(GetUnavailableSlots(storageId, -1)))
+    print("item moved to another inventory to slot: "..item.slot)
+end
+AddRemoteEvent("Survival:Inventory:ServerRequestChangeInventorySlotItem", ServerRequestChangeInventorySlotItem)
+
+function InitStorageGridConfig()
+    if StorageGridConfig ~= nil then
+        return
+    end
+    StorageGridConfig={}
+    local i = 0
+    for y = 0, 100 do
+        for x = 0, 7 do
+            StorageGridConfig[i] = {
+                slotId = i,
+                x = x,
+                y = y
+            }
+            i = i + 1
+        end
+    end
+end
+InitStorageGridConfig()
+
+function FindSlotByPosition(x,y)
+    for k,slot in pairs(StorageGridConfig) do
+        if slot.x == x and slot.y == y then
+            return slot
+        end
+    end
+    return nil
+end
+
+function GetSlotInDirection(slot, direction, offset)
+    local posXY = StorageGridConfig[slot]
+    local found = nil
+    if posXY ~= nil then
+        if direction == "bottom" then
+            found = FindSlotByPosition(posXY.x, posXY.y + offset)
+        elseif direction == "top" then
+            found = FindSlotByPosition(posXY.x, posXY.y - offset)
+        elseif direction == "right" then
+            found = FindSlotByPosition(posXY.x + offset, posXY.y)
+        elseif direction == "left" then
+            found = FindSlotByPosition(posXY.x - offset, posXY.y)
+        end
+    end
+    return found
+end
+
+function GetItemSlotsClaimed(storageId, itemId, slot)
+    local template = InventoryItems[itemId]
+    local position = StorageGridConfig[slot]
+    local claimedSlots = {}
+    table.insert(claimedSlots, slot)
+    local currentSlot = slot
+    for y = 0, template.dimensions.h - 1 do
+        for x = 1, template.dimensions.w - 1 do
+            if GetSlotInDirection(currentSlot, "right", x) ~= nil then
+                table.insert(claimedSlots, GetSlotInDirection(currentSlot, "right", x).slotId)
+            else
+                break
+            end
+        end
+        
+        if GetSlotInDirection(currentSlot, "bottom", 1) == nil then
+            break 
+        end
+        currentSlot = GetSlotInDirection(currentSlot, "bottom", 1).slotId
+        if template.dimensions.h - 1 ~= y then
+            table.insert(claimedSlots, currentSlot)
+        end
+    end
+    return claimedSlots
+end
+
+function GetUnavailableSlots(storageId, uid)
+    local slots = {}
+    local storage = Storages[storageId]
+    for _,item in pairs(storage.items) do
+        local pass = false
+        if uid ~= -1 then
+            if uid == item.uid then
+                pass = true
+            end
+        end
+        if not pass then
+            local claimed = GetItemSlotsClaimed(storageId, item.itemId, item.slot)
+            for _, s in pairs(claimed) do
+                table.insert(slots, s)
+            end
+        end
+    end
+    return slots
+end
+
+function GetAvailableSlots(storageId)
+    local slots = {}
+    local storage = Storages[storageId]
+    for i = 0, storage.slots - 1 do
+        if IsSlotAvailable(storageId, i) then
+            table.insert(slots, i)
+        end
+    end
+    return slots
+end
+
+function IsSlotAvailable(storageId, slot, uid)
+    local storage = Storages[storageId]
+    local slotUnavailable = GetUnavailableSlots(storageId, uid)
+    for _,s in pairs(slotUnavailable) do
+        if s == slot then
+            return false
+        end
+    end
+    return true
+end
+
+function CheckExistSlot(storageId, slot) 
+    local storage = Storages[storageId]
+    if slot > storage.slots - 1 or slot < 0 then
+        return false
+    end
+    return true
+end
+
+function CanFitInThisSlot(storageId, itemId, slot, uid)
+    local slotUnavailable = GetUnavailableSlots(storageId, uid)
+    local slotNeeded = GetItemSlotsClaimed(storageId, itemId, slot)
+    for _, s in pairs(slotNeeded) do
+        if IsSlotAvailable(storageId, s, uid) == false then
+            return false
+        end
+        if CheckExistSlot(storageId, s) == false then
+            return false
+        end
+    end
+    local template = InventoryItems[itemId]
+    if(tablelength(slotNeeded) ~= (template.dimensions.w * template.dimensions.h)) then
+        return false
+    end
+    return true
+end
+
+function InitStorageForCharacter(character, slots, callback)
+    local query = mariadb_prepare(sql, "INSERT INTO `tbl_storage` (`name`, `id_character`, `slots`, `data`)" ..
+        "VALUES ('?', '?', '?', '?');", "inventaire", character.id, slots, "[]")
+    mariadb_query(sql, query, function()
+        local id = mariadb_get_insert_id()
+        local characterStorage = {
+            id = tostring(id),
+            name = "inventaire",
+            id_character = character.id,
+            slots = slots,
+            items = {},
+            type = "character"
+        }
+        Storages[characterStorage.id] = characterStorage
+        print("new storage character id: " .. id)
+        callback(characterStorage)
+    end)
+end
+
+function LoadStoragesForCharacter(character, callback)
+    local query = mariadb_prepare(sql, "SELECT * FROM `tbl_storage` WHERE id_character='?';", character.id)
+    mariadb_query(sql, query, function()
+        for i=1,mariadb_get_row_count() do
+			local result = mariadb_get_assoc(i)
+			
+			local storage = {
+				id = tostring(mariadb_get_value_index_int(i, 1)),
+                name = mariadb_get_value_index(i, 2),
+                id_character = mariadb_get_value_index_int(i, 3),
+                slots = mariadb_get_value_index_int(i, 4),
+                items = jsondecode(mariadb_get_value_index(i, 5)),
+                type = "character"
+            }
+            Storages[storage.id] = storage
+			print("loaded storage id: " .. storage.id)
+        end
+        callback()
+    end)
+end
+
+function UpdateStorage(storage)
+    if storage.type == "character" then
+        local query = mariadb_prepare(sql, "UPDATE `tbl_storage` SET data='?' WHERE id_storage='?';",
+            jsonencode(storage.items), tonumber(storage.id))
+        mariadb_query(sql, query, function()
+            print("storage updated")
+        end)
+    end
+end
