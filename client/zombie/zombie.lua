@@ -5,6 +5,10 @@ function OnPackageStart()
         CheckZombiesRoar()
         CheckZombiePursuit()
     end, 5000)
+
+    CreateTimer(function()
+        --FixTerrainHeightNpc()
+    end, 500)
 end
 AddEvent("OnPackageStart", OnPackageStart)
 
@@ -20,6 +24,16 @@ AddEvent("OnNPCStreamIn", function(npc)
 		SetNPCClothingPreset(npc, tonumber(model))
 	end
 end)
+
+function FixTerrainHeightNpc()
+    for _,n in pairs(GetStreamedNPC()) do
+        local x, y, z = GetNPCLocation(n)
+        local isAlive = GetNPCPropertyValue(n, "_isAlive")
+        if isAlive then
+            CallRemoteEvent("Survival:Zombie:FixTerrainHeightNpc", n, x,y, GetTerrainHeight(x,y,99999.9))
+        end
+    end
+end
 
 function CheckZombiesRoar()
     for _,n in pairs(GetStreamedNPC()) do

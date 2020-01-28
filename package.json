@@ -16,7 +16,8 @@
 		"server/lootboxes/lootboxes.spawns.lua",
 		"server/zombie/zombie.lua",
 		"server/zombie/zombie.spawn.lua",
-		"server/weapon/weapon.lua"
+		"server/weapon/weapon.lua",
+		"server/safezone/safezone.lua"
 	],
     "client_scripts": [
 		"client/common/json.lua",
@@ -28,7 +29,8 @@
 		"client/inventory/inventory.lua",
 		"client/inventory/inventory.config.lua",
 		"client/globalui/globalui.lua",
-		"client/lootboxes/lootboxes.lua"
+		"client/lootboxes/lootboxes.lua",
+		"client/safezone/safezone.lua"
 	],
 	"files": [
 		"client/common/fonts/GeosansLight.ttf",
@@ -73,6 +75,8 @@
 		"client/globalui/ui/globalui.css",
 		"client/globalui/ui/info.png",
 		
-		"client/lootboxes/open_box_1.mp3"
+		"client/lootboxes/open_box_1.mp3",
+
+		"client/safezone/sounds/music_1.mp3"
 	]
 }

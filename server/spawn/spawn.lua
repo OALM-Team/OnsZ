@@ -19,6 +19,7 @@ function OnPlayerSpawn(player)
             SetPlayerPropertyValue(player, 'clothingID', character.clothing_id, true)
             SetPlayerPropertyValue(player, 'characterID', character.id, true)
             --RequestPlayIntroCinematic(player)
+            EquipPlayerCharacterWeapons(player)
             LoadStoragesForCharacter(character, function()
                 SetPlayerLocation(player, character.location_x, character.location_y, character.location_z, character.location_h)
             end)
@@ -48,6 +49,7 @@ function LoadPlayerFromDatabase(player, callback)
                 location_h = mariadb_get_value_index_float(1, 6),
                 clothing_id = mariadb_get_value_index_int(1, 7),
                 blood_group = mariadb_get_value_index(1, 8),
+                weapons= jsondecode(mariadb_get_value_index(1, 9))
             }
             print("found existing character: "..character.id)
             callback(character)
@@ -62,7 +64,8 @@ function LoadPlayerFromDatabase(player, callback)
 				location_z = z,
                 location_h = h,
                 clothing_id = 19,
-                blood_group = BloodGroups[math.random(1, tablelength(BloodGroups))]
+                blood_group = BloodGroups[math.random(1, tablelength(BloodGroups))],
+                weapons={}
             }, function(character)
                 InitStorageForCharacter(character, 30, function(characterStorage)
                     callback(character)
@@ -73,9 +76,9 @@ function LoadPlayerFromDatabase(player, callback)
 end
 
 function InsertPlayerDatabase(character, callback)
-    local query = mariadb_prepare(sql, "INSERT INTO `tbl_character` (`steamid`, `location_x`, `location_y`, `location_z`, `location_h`, `clothing_id`, `blood_group`)" ..
-        "VALUES ('?', '?', '?', '?', '?', '?', '?');",
-        character.steamid, character.location_x, character.location_y, character.location_z, character.location_h, character.clothing_id, character.blood_group)
+    local query = mariadb_prepare(sql, "INSERT INTO `tbl_character` (`steamid`, `location_x`, `location_y`, `location_z`, `location_h`, `clothing_id`, `blood_group`, `weapons`)" ..
+        "VALUES ('?', '?', '?', '?', '?', '?', '?', '?');",
+        character.steamid, character.location_x, character.location_y, character.location_z, character.location_h, character.clothing_id, character.blood_group, jsonencode(character.weapons))
     mariadb_query(sql, query, function()
         local id = mariadb_get_insert_id()
         character.id = id
@@ -95,9 +98,9 @@ function UpdatePlayerDatabase(player)
     character.location_z = z
     character.location_h = h
 
-    local query = mariadb_prepare(sql, "UPDATE `tbl_character` SET location_x='?', location_y='?', location_z='?', location_h='?', clothing_id='?', blood_group='?' WHERE id_character='?';",
+    local query = mariadb_prepare(sql, "UPDATE `tbl_character` SET location_x='?', location_y='?', location_z='?', location_h='?', clothing_id='?', blood_group='?', weapons='?' WHERE id_character='?';",
         character.location_x, character.location_y, character.location_z, character.location_h, character.clothing_id, character.blood_group,
-        tonumber(character.id))
+        jsonencode(GetPlayerWeaponsList(player)) ,tonumber(character.id))
     mariadb_query(sql, query, function()
         print("character updated id: ".. character.id)
     end)

@@ -47,21 +47,23 @@ function CheckZombiesHit()
             local nx, ny, nz = GetNPCLocation(z.npc)
             local px, py, pz = GetPlayerLocation(z.pursuitPlayer)
 
-            if GetDistance3D(nx, ny, nz, px, py, pz) < 150 then
-                if z.lastHit < GetTickCount() then
-                    z.lastHit = GetTickCount() + 4000
-                    SetNPCAnimation(z.npc, "THROW", false)
-                    Delay(1500, function()
-                        if(z.pursuitPlayer ~= nil) then
-                            local nx, ny, nz = GetNPCLocation(z.npc)
-                            local px, py, pz = GetPlayerLocation(z.pursuitPlayer)
-                        
-                            if GetDistance3D(nx, ny, nz, px, py, pz) < 150 then
-                                CallRemoteEvent(z.pursuitPlayer, "Survival:Zombie:HitByZombie")
-                                SetPlayerHealth(z.pursuitPlayer, GetPlayerHealth(z.pursuitPlayer) - 25)
+            if not px then
+                if GetDistance3D(nx, ny, nz, px, py, pz) < 150 then
+                    if z.lastHit < GetTickCount() then
+                        z.lastHit = GetTickCount() + 4000
+                        SetNPCAnimation(z.npc, "THROW", false)
+                        Delay(1500, function()
+                            if(z.pursuitPlayer ~= nil) then
+                                local nx, ny, nz = GetNPCLocation(z.npc)
+                                local px, py, pz = GetPlayerLocation(z.pursuitPlayer)
+                            
+                                if GetDistance3D(nx, ny, nz, px, py, pz) < 150 then
+                                    CallRemoteEvent(z.pursuitPlayer, "Survival:Zombie:HitByZombie")
+                                    SetPlayerHealth(z.pursuitPlayer, GetPlayerHealth(z.pursuitPlayer) - 25)
+                                end
                             end
-                        end
-                    end)
+                        end)
+                    end
                 end
             end
         end
@@ -153,4 +155,20 @@ AddEvent("OnNPCDeath", function(npc, player)
         DestroyNPC(zombie.npc)
         Zombies[npc] = nil
     end)
+end)
+
+AddRemoteEvent("Survival:Zombie:FixTerrainHeightNpc", function(npc, x,y,th)
+    local zombie = Zombies[npc]
+    if zombie == nil then
+        return
+    end
+
+    if not zombie.isAlive then
+        return
+    end
+
+    SetNPCTargetLocation(zombie.npc, x,y,th)
+    if zombie.pursuitPlayer ~= nil then
+        SetNPCFollowPlayer(zombie.npc, zombie.pursuitPlayer, 300)
+    end
 end)
