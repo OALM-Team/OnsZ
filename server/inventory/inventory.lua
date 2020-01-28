@@ -9,7 +9,7 @@ end
 
 
 AddCommand("additem", function(player, item)
-    AddItem(GetStoragesByCharacterId(GetPlayerPropertyValue(player, 'characterID'))[1].id, item, player)
+    TryAddItemToCharacter(player, item)
 end)
 
 function ClientRequestInventoryData(player)
@@ -61,13 +61,24 @@ function FindItemKeyInStorage(storageId, uid)
     return nil
 end
 
+math.randomseed(os.time())
 function uuid()
-    math.randomseed(os.time())
+    math.random(); math.random(); math.random()
     local template ='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
     return string.gsub(template, '[xy]', function (c)
         local v = (c == 'x') and  math.random(0, 0xf) or  math.random(8, 0xb)
         return string.format('%x', v)
     end)
+end
+
+function TryAddItemToCharacter(player, itemId)
+    local characterStoragesList = GetStoragesByCharacterId(GetPlayerPropertyValue(player, 'characterID'))
+    for _,storage in pairs(characterStoragesList) do
+        if AddItem(storage.id, itemId, player) ~= nil then
+            return true
+        end
+    end
+    return false
 end
 
 function AddItem(storageId, itemId, player)
@@ -82,7 +93,7 @@ function AddItem(storageId, itemId, player)
     end
     if fitSlot == nil then
         if player ~= nil then
-            CallRemoteEvent(player, "Survival:GlobalUI:CreateNotification", "#ff0051", "Pas assez d'espace", "Faite du rangement ou libérer de la place dans votre inventaire", 10000)
+            CallRemoteEvent(player, "Survival:GlobalUI:CreateNotification", "#ff0051", "Pas assez d'espace dans "..storage.name, "Faite du rangement ou libérer de la place dans votre inventaire", 10000, 2)
         end
         return nil
     end
@@ -96,7 +107,7 @@ function AddItem(storageId, itemId, player)
     UpdateStorage(storage)
     if player ~= nil then
         local template = InventoryItems[itemId]
-        CallRemoteEvent(player, "Survival:GlobalUI:CreateNotification", "#05ed4e", "Nouvelle objet", template.name.." est désormais dans votre inventaire", 5000)
+        CallRemoteEvent(player, "Survival:GlobalUI:CreateNotification", "#05ed4e", "Nouvelle objet", template.name.." est désormais dans votre inventaire", 5000, 1)
         CallRemoteEvent(player, "Survival:Inventory:ReceiveInventoryItem", storage.id, createdItem.uid, createdItem.itemId, createdItem.slot)
     end
     return createdItem
@@ -113,11 +124,26 @@ function RequestThrowItem(player, storageId, itemId)
     table.remove(storage.items, itemKey)
     UpdateStorage(storage)
     if player ~= nil then
-        CallRemoteEvent(player, "Survival:GlobalUI:CreateNotification", "#ffc003", "Au sol", template.name.." est désormais au sol", 5000)
+        CallRemoteEvent(player, "Survival:GlobalUI:CreateNotification", "#ffc003", "Au sol", template.name.." est désormais au sol", 5000, 2)
         CallRemoteEvent(player, "Survival:Inventory:RemoveItem", storage.id, itemId)
     end
 end
 AddRemoteEvent("Survival:Inventory:ServerRequestThrowItem", RequestThrowItem)
+
+function RemoveItem(player, storageId, itemId)
+    local storage = Storages[storageId]
+    local item = FindItemInStorage(storageId, itemId)
+    if item == nil then
+        return
+    end
+    local template = InventoryItems[item.itemId]
+    local itemKey = FindItemKeyInStorage(storageId, itemId)
+    table.remove(storage.items, itemKey)
+    UpdateStorage(storage)
+    if player ~= nil then
+        CallRemoteEvent(player, "Survival:Inventory:RemoveItem", storage.id, itemId)
+    end
+end
 
 function GetPlayerByStorageId(storageId)
     return 1
@@ -165,9 +191,9 @@ function ServerRequestChangeInventorySlotItem(player, storageId, toStorageId, ui
         local template = InventoryItems[item.itemId]
         if toStorage.id_character ~= storage.id_character then
             if toStorage.id_character == GetPlayerPropertyValue(player, 'characterID') then
-                CallRemoteEvent(player, "Survival:GlobalUI:CreateNotification", "#05ed4e", "Nouvelle objet", template.name.." est désormais dans votre inventaire", 5000)
+                CallRemoteEvent(player, "Survival:GlobalUI:CreateNotification", "#05ed4e", "Nouvelle objet", template.name.." est désormais dans votre inventaire", 5000, 1)
             else
-                CallRemoteEvent(player, "Survival:GlobalUI:CreateNotification", "#ffc003", "Déposer", template.name.." est désormais dans le conteneur", 5000)
+                CallRemoteEvent(player, "Survival:GlobalUI:CreateNotification", "#ffc003", "Déposer", template.name.." est désormais dans le conteneur", 5000, 2)
             end
         end
     end
@@ -365,3 +391,14 @@ function UpdateStorage(storage)
         end)
     end
 end
+
+function ServerRequestUseItem(player, storageId, uid)
+    local storage = Storages[storageId]
+    local item = FindItemInStorage(storageId, uid)
+    if item == nil then
+        return
+    end
+    local template = InventoryItems[item.itemId]
+    CallEvent("Survival:Inventory:UseItem", player, storage, template, uid)
+end
+AddRemoteEvent("Survival:Inventory:ServerRequestUseItem", ServerRequestUseItem)

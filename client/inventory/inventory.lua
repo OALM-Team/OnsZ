@@ -4,6 +4,9 @@ function OnKeyPress(key)
     if not IsCtrlPressed() and key == "F2" then
         OpenInventoryUI()
     end
+    if IsCtrlPressed() and key == "G" then
+        CallRemoteEvent("Survival:Weapon:StoreCurrentWeapon")
+    end
 end
 AddEvent("OnKeyPress", OnKeyPress)
 
@@ -34,6 +37,7 @@ function CloseInventoryUI()
 
     InventoryUI = nil
 end
+AddRemoteEvent("Survival:Inventory:ClientCloseInventoryUI", CloseInventoryUI)
 
 function RequestInventoryData()
     if InventoryUI == nil then
@@ -82,6 +86,11 @@ function RequestThrowItem(storageId, uid)
     CallRemoteEvent("Survival:Inventory:ServerRequestThrowItem", storageId, uid)
 end
 AddEvent("Survival:Inventory:RequestThrowItem", RequestThrowItem)
+
+function RequestUseItem(storageId, uid)
+    CallRemoteEvent("Survival:Inventory:ServerRequestUseItem", storageId, uid)
+end
+AddEvent("Survival:Inventory:RequestUseItem", RequestUseItem)
 
 function RemoveItem(storageId, uid)
     if InventoryUI == nil then

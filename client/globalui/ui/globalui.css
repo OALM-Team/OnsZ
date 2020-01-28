@@ -42,7 +42,7 @@
 
 .timeout-bar {
     position: absolute;
-    bottom: 0;
+    bottom: 0px;
     left: 0;
     right: 0;
 }
@@ -50,4 +50,74 @@
 .timeout-bar-inner {
     height: 4px;
     width: 100%;
+}
+
+.progress {
+    width: 100%;
+    height: 20px;
+    transition: 0.3s;
+}
+
+#character-ui-container {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20%;
+    overflow: hidden;
+    border: 2px solid #000000a9; 
+    border-top-left-radius: 100px;
+    border-top-right-radius: 100px;
+}
+
+.character-health-progress {
+    background: linear-gradient(90deg, rgba(52,162,14,1) 0%, rgba(22,255,0,1) 100%);
+}
+
+.character-armor-progress {
+    height: 13px;
+    background: linear-gradient(90deg, rgba(0,169,173,1) 0%, rgba(0,136,237,1) 100%);
+}
+
+#character-fds-container {
+    height: 15px;
+}
+
+.progress-container {
+    border-bottom: 1px solid gray;
+    background-color: rgba(0, 0, 0, 0.664);
+    position: relative;
+}
+
+.progress-text {
+    position: absolute;
+    top: 3px;
+    left: 10px;
+    color: white;
+    font-size: 13px;
+}
+
+.multi-character-progress {
+    padding: 0;
+    margin: 0;
+    width:25%;
+    float:left;
+    display: inline;
+    box-sizing:border-box;
+    height: 15px;
+}
+
+.character-food-progress {
+    background: linear-gradient(90deg, rgba(255,182,72,1) 0%, rgba(237,127,0,1) 100%);
+}
+
+.character-drink-progress {
+    background: linear-gradient(90deg, rgba(83,255,218,1) 0%, rgba(0,204,237,1) 100%);
+}
+
+.character-sleep-progress {
+    background: linear-gradient(90deg, rgba(204,83,255,1) 0%, rgba(119,0,237,1) 100%);
+}
+
+.character-infection-progress {
+    background: linear-gradient(90deg, rgba(182,16,16,1) 0%, rgba(255,0,0,1) 100%);
 }

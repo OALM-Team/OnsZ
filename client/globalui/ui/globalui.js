@@ -36,7 +36,10 @@ function appendNewCard(hexa, title, content, timeout) {
     });
 }
 
-
+function refreshLifeAndArmor(life, armor) {
+  document.querySelector(".character-health-progress").style.width = life + "%";
+  document.querySelector(".character-armor-progress").style.width = armor + "%";
+}
 
 class Color {
     constructor(r, g, b) {

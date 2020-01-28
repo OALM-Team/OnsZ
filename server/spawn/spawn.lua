@@ -1,9 +1,15 @@
 CharactersData = {}
+BloodGroups = {"AB+", "AB-", "A+", "A-", "B+", "B-", "O+", "O-"}
 
 function OnPlayerJoin(player)
     SetPlayerSpawnLocation(player, 45767, 48163, 2265, 90.0)
 end
 AddEvent("OnPlayerJoin", OnPlayerJoin)
+
+function OnPlayerQuit(player)
+    UpdatePlayerDatabase(player)
+end
+AddEvent("OnPlayerQuit", OnPlayerQuit)
 
 function OnPlayerSpawn(player)
     Delay(2000, function()
@@ -40,7 +46,8 @@ function LoadPlayerFromDatabase(player, callback)
 				location_y = mariadb_get_value_index_float(1, 4),
 				location_z = mariadb_get_value_index_float(1, 5),
                 location_h = mariadb_get_value_index_float(1, 6),
-                clothing_id = mariadb_get_value_index_int(1, 7)
+                clothing_id = mariadb_get_value_index_int(1, 7),
+                blood_group = mariadb_get_value_index(1, 8),
             }
             print("found existing character: "..character.id)
             callback(character)
@@ -54,7 +61,8 @@ function LoadPlayerFromDatabase(player, callback)
 				location_y = y,
 				location_z = z,
                 location_h = h,
-                clothing_id = 19
+                clothing_id = 19,
+                blood_group = BloodGroups[math.random(1, tablelength(BloodGroups))]
             }, function(character)
                 InitStorageForCharacter(character, 30, function(characterStorage)
                     callback(character)
@@ -65,13 +73,32 @@ function LoadPlayerFromDatabase(player, callback)
 end
 
 function InsertPlayerDatabase(character, callback)
-    local query = mariadb_prepare(sql, "INSERT INTO `tbl_character` (`steamid`, `location_x`, `location_y`, `location_z`, `location_h`, `clothing_id`)" ..
-        "VALUES ('?', '?', '?', '?', '?', '?');",
-        character.steamid, character.location_x, character.location_y, character.location_z, character.location_h, character.clothing_id)
+    local query = mariadb_prepare(sql, "INSERT INTO `tbl_character` (`steamid`, `location_x`, `location_y`, `location_z`, `location_h`, `clothing_id`, `blood_group`)" ..
+        "VALUES ('?', '?', '?', '?', '?', '?', '?');",
+        character.steamid, character.location_x, character.location_y, character.location_z, character.location_h, character.clothing_id, character.blood_group)
     mariadb_query(sql, query, function()
         local id = mariadb_get_insert_id()
         character.id = id
         print("new character id: " .. id)
         callback(character)
+    end)
+end
+
+function UpdatePlayerDatabase(player) 
+    local character = CharactersData[tostring(GetPlayerSteamId(player))]
+
+    -- set locations
+    local x,y,z = GetPlayerLocation(player)
+    local h = GetPlayerHeading(player)
+    character.location_x = x
+    character.location_y = y
+    character.location_z = z
+    character.location_h = h
+
+    local query = mariadb_prepare(sql, "UPDATE `tbl_character` SET location_x='?', location_y='?', location_z='?', location_h='?', clothing_id='?', blood_group='?' WHERE id_character='?';",
+        character.location_x, character.location_y, character.location_z, character.location_h, character.clothing_id, character.blood_group,
+        tonumber(character.id))
+    mariadb_query(sql, query, function()
+        print("character updated id: ".. character.id)
     end)
 end

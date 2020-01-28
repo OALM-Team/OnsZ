@@ -246,6 +246,8 @@ function addItem(inventoryId, uid, slot, item, redraw = false) {
         showContextMenu("#context-menu-item", $(ele), (choice) => {
             if(choice == "throw") {
                 CallEvent("Survival:Inventory:RequestThrowItem", inventoryId, uid)
+            } else if(choice == "use") {
+                CallEvent("Survival:Inventory:RequestUseItem", inventoryId, uid)
             }
         })
     });
