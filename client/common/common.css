@@ -80,6 +80,7 @@ body {
 }
 
 .inventory-content-square {
+    position: relative;
     background-color: #706e6671;
     width: 56px;
     height: 56px;

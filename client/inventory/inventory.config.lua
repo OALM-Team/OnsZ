@@ -30,6 +30,20 @@ InventoryItems["gas"] = {
     dimensions={w=2,h=2},
     desc="Permet de remettre du carburant dans un véhicule"
 }
+InventoryItems["green_pant"] = {
+    name="Pantalon Vert",
+    dimensions={w=2,h=4},
+    desc="Un pantalon vert",
+    outfit_type="pant",
+    is_outfit=true
+}
+InventoryItems["black_tshirt"] = {
+    name="Tshirt Noir",
+    dimensions={w=3,h=3},
+    desc="Un tshirt noir",
+    outfit_type="top",
+    is_outfit=true
+}
 InventoryItems["bloog_bag_oplus"] = {
     name="Poche de sang (O+)",
     dimensions={w=1,h=2},

@@ -56,11 +56,11 @@ function CheckZombiePursuit()
     for _,n in pairs(GetStreamedNPC()) do
         local px, py, pz = GetPlayerLocation(GetPlayerId())
         local x, y, z = GetNPCLocation(n)
-        if GetDistance3D(x, y, z, px, py, pz) > 2500 then
+        if GetDistance3D(x, y, z, px, py, pz) > 3000 then
             CallRemoteEvent("Survival:Zombie:EndPursuitEngage", n, GetTerrainHeight(x,y,99999.9))
             return
         end
-        CallRemoteEvent("Survival:Zombie:PursuitEngage", n, GetTerrainHeight(x,y,99999.9))
+        CallRemoteEvent("Survival:Zombie:PursuitEngage", n)
     end
 end
 

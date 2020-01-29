@@ -1,4 +1,4 @@
-function RequestUseWeaponItem(player, storage, template, uid)
+function RequestUseWeaponItem(player, storage, template, uid, itemId)
     if template.is_ammo then
         RequestLoadAmmo(player, storage, template, uid)
         return

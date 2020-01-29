@@ -17,10 +17,12 @@
 		"server/zombie/zombie.lua",
 		"server/zombie/zombie.spawn.lua",
 		"server/weapon/weapon.lua",
-		"server/safezone/safezone.lua"
+		"server/safezone/safezone.lua",
+		"server/outfit/outfit.lua"
 	],
     "client_scripts": [
 		"client/common/json.lua",
+		"client/player/player.outfit.lua",
 		"client/player/player.lua",
 		"client/cinematic/cinematic.lua",
 		"client/cinematic/cinematic.texts.lua",
@@ -67,6 +69,11 @@
 		"client/inventory/ui/icons/glock.png",
 		"client/inventory/ui/icons/ammo_9_mm.png",
 		"client/inventory/ui/icons/bloog_bag_oplus.png",
+		"client/inventory/ui/icons/military_outfit_1.png",
+		"client/inventory/ui/icons/green_pant.png",
+		"client/inventory/ui/icons/black_tshirt.png",
+		"client/inventory/ui/icons/equipement_tshirt.png",
+		"client/inventory/ui/icons/equipement_pant.png",
 		
 		"client/globalui/notif_1.mp3",
 		"client/globalui/notif_2.mp3",

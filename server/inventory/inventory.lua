@@ -399,6 +399,6 @@ function ServerRequestUseItem(player, storageId, uid)
         return
     end
     local template = InventoryItems[item.itemId]
-    CallEvent("Survival:Inventory:UseItem", player, storage, template, uid)
+    CallEvent("Survival:Inventory:UseItem", player, storage, template, uid, item.itemId)
 end
 AddRemoteEvent("Survival:Inventory:ServerRequestUseItem", ServerRequestUseItem)
