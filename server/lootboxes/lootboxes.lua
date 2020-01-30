@@ -4,7 +4,7 @@ function OnPackageStart()
     RefreshLoots()
     CreateTimer(function()
         RefreshLoots()
-    end, 60000)
+    end, 60000 * 5)
     CreateTimer(function()
         for k,lootbox in pairs(Lootboxes) do
             if tablelength(lootbox.storage.items) == 0 then
@@ -115,11 +115,20 @@ AddCommand("spawnlootbox", function(player, type)
     SpawnLootbox(x, y, z, type)
 end)
 
-
 AddRemoteEvent("Survival:Lootboxes:OpenLootbox", function(player, lootboxId)
     local lootbox = Lootboxes[lootboxId]
     if lootbox == nil then
         return
     end
     OpenLootbox(player, lootboxId)
+end)
+
+AddCommand("spawnlootboxsave", function(player, type)
+    local x, y, z = GetPlayerLocation(player)
+    local file = io.open("lootboxes.txt", "a")
+    file:write("{id=uuid(),x="..x..",y="..y..",z="..z..",type=\""..type.."\"},\n")
+    file:close()
+    AddPlayerChat(player, "Saved Position type:" ..type.. " X: " ..x.. " Y: " ..y.. " Z: " ..z)
+    local x,y,z = GetPlayerLocation(player)
+    SpawnLootbox(x, y, z, type)
 end)

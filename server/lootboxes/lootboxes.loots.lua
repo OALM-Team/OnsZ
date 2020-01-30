@@ -19,6 +19,18 @@ LootboxesLootsType["zombie_1"] = {
             itemId = "black_tshirt",
             slot = 0
         }
+    },
+    {
+        {
+            itemId = "red_pant",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "blue_tshirt",
+            slot = 0
+        }
     }
 }
 
@@ -32,10 +44,13 @@ LootboxesLootsType["weapon_1"] = {
         {
             itemId = "ammo_50_ae",
             slot = 4
-        },
+        }
+    },
+    -- loot 1
+    {
         {
             itemId = "ammo_50_ae",
-            slot = 6
+            slot = 4
         }
     },
     -- loot 2
@@ -47,10 +62,27 @@ LootboxesLootsType["weapon_1"] = {
         {
             itemId = "ammo_9_mm",
             slot = 4
-        },
+        }
+    },
+    -- loot 2
+    {
         {
             itemId = "ammo_9_mm",
             slot = 6
+        }
+    },
+    -- loot 2
+    {
+        {
+            itemId = "shotgun_1",
+            slot = 0
+        }
+    },
+    -- loot 2
+    {
+        {
+            itemId = "ammo_12_mm",
+            slot = 0
         }
     },
 }
@@ -101,6 +133,70 @@ LootboxesLootsType["basic"] = {
         {
             itemId = "apple",
             slot = 1
+        }
+    },
+    {
+        {
+            itemId = "apple",
+            slot = 0
+        }
+    }
+}
+
+LootboxesLootsType["medical_1"] = {
+    -- loot 1
+    {
+        {
+            itemId = "blood_test",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "bloog_bag_oplus",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "bloog_bag_ominus",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "bloog_bag_bplus",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "bloog_bag_bminus",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "bloog_bag_aplus",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "bloog_bag_aminus",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "bloog_bag_abplus",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "bloog_bag_abminus",
+            slot = 0
         }
     }
 }

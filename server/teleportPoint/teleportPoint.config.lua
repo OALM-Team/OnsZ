@@ -19,6 +19,16 @@ TeleportPoint.Points = {
         loc={x=90674,y=93388,z=1714},
         to={x=91019,y=93113,z=1092},
         event=""
+    },
+    {
+        loc={x=212344,y=157806,z=2429},
+        to={x=209850,y=154551,z=1319},
+        event=""
+    },
+    {
+        loc={x=210111,y=154549,z=1319},
+        to={x=212334,y=157492,z=2428},
+        event=""
     }
 }
 TeleportPoint.Pickups = {} 
