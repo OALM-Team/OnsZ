@@ -31,7 +31,27 @@ end
 AddEvent("OnPackageStart", OnPackageStart)
 
 AddEvent("OnPlayerSteamAuth", function(player)
-    print("Steam Auth: " .. GetPlayerSteamId(player))
+    TrySpawn(player)
+end)
+
+function OnPlayerJoin(player)
+    SetPlayerSpawnLocation(player, 45767, 48163, 2265, 90.0)
+end
+AddEvent("OnPlayerJoin", OnPlayerJoin)
+
+function OnPlayerQuit(player)
+    UpdatePlayerDatabase(player)
+end
+AddEvent("OnPlayerQuit", OnPlayerQuit)
+
+function OnPlayerSpawn(player)
+    Delay(5000, function()
+        TrySpawn(player)
+    end)
+end
+AddEvent("OnPlayerSpawn", OnPlayerSpawn)
+
+function TrySpawn(player)
     RegisterPlayerDatabase(player, function(character)
         print("character enter in game id: "..character.id)
         SetPlayerPropertyValue(player, 'characterID', character.id, true)
@@ -66,59 +86,6 @@ AddEvent("OnPlayerSteamAuth", function(player)
 
             SetPlayerHealth(player, character.health)
         end)
-    end)
-end)
-
-function OnPlayerJoin(player)
-    SetPlayerSpawnLocation(player, 45767, 48163, 2265, 90.0)
-end
-AddEvent("OnPlayerJoin", OnPlayerJoin)
-
-function OnPlayerQuit(player)
-    UpdatePlayerDatabase(player)
-end
-AddEvent("OnPlayerQuit", OnPlayerQuit)
-
-function OnPlayerSpawn(player)
-    Delay(5000, function()
-        TrySpawn(player, 1)
-    end)
-end
-AddEvent("OnPlayerSpawn", OnPlayerSpawn)
-
-function TrySpawn(player, retryCount)
-    
-    RegisterPlayerDatabase(player, function(character)
-        local character = CharactersData[tostring(GetPlayerSteamId(player))]
-        if character == nil then
-            if retryCount == 20 then
-                KickPlayer(player, "Erreur d'identification Steam")
-                return
-            end
-            Delay(5000, function()
-                print("can't found character, retry:"..retryCount)
-                TrySpawn(player, retryCount + 1)
-            end)
-            return
-        end
-    
-        if character.is_dead == 1 then
-            AjustFood(player, 100)
-            AjustDrink(player, 100)
-            AjustSleep(player, 100)
-            character.health = 100
-            character.is_dead = 0
-            UpdatePlayerDatabase(player)
-            SetPlayerLocation(player, 45767, 48163, 2265, 90.0)
-            
-            CallRemoteEvent(player, "Survival:GlobalUI:SetDeathScreen", "false")
-        else
-            EquipPlayerCharacterWeapons(player)
-            SetPlayerOutfit(player)
-            SetPlayerLocation(player, character.location_x, character.location_y, character.location_z, character.location_h)
-        end
-    
-        SetPlayerHealth(player, character.health)
     end)
 end
 
