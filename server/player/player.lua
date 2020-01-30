@@ -32,7 +32,7 @@ AddEvent("OnPackageStart", OnPackageStart)
 
 AddEvent("OnPlayerSteamAuth", function(player)
     RegisterPlayerDatabase(player, function(character)
-        print("Steam logged: " .. tostringGetPlayerSteamId(player))
+        print("Steam logged: " .. tostring(GetPlayerSteamId(player)))
     end)
 end)
 
@@ -166,7 +166,7 @@ end
 
 function InsertPlayerDatabase(character, callback)
     local query = mariadb_prepare(sql, "INSERT INTO `tbl_character` (`steamid`, `location_x`, `location_y`, `location_z`, `location_h`, `clothing_id`, `blood_group`, `weapons`, `outfit`, `food`, `drink`, `sleep`, `health`, `is_dead`)" ..
-        "VALUES ('?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?');",
+        "VALUES ('?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?');",
         character.steamid, character.location_x, character.location_y, character.location_z, character.location_h, character.clothing_id, character.blood_group, jsonencode(character.weapons), jsonencode(character.outfit),
         character.food, character.drink, character.sleep, character.health, character.is_dead)
     mariadb_query(sql, query, function()
