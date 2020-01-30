@@ -34,7 +34,6 @@ AddEvent("OnPlayerSteamAuth", function(player)
     RegisterPlayerDatabase(player, function(character)
         print("Steam logged: " .. tostringGetPlayerSteamId(player))
     end)
-    TrySpawn(player)
 end)
 
 function OnPlayerJoin(player)
@@ -57,8 +56,10 @@ AddEvent("OnPlayerSpawn", OnPlayerSpawn)
 function TrySpawn(player)
     local character =  CharactersData[tostring(GetPlayerSteamId(player))]
     if character == nil then
-        Delay(5000, function()
-            TrySpawn(player)
+        RegisterPlayerDatabase(player, function(character)
+            Delay(5000, function()
+                TrySpawn(player)
+            end)
         end)
         return
     end
@@ -125,7 +126,10 @@ function LoadPlayerFromDatabase(player, callback)
                 drink=mariadb_get_value_index_int(1, 12),
                 sleep=mariadb_get_value_index_int(1, 13),
                 health=mariadb_get_value_index_int(1, 14),
-                is_dead=mariadb_get_value_index_int(1, 15)
+                is_dead=mariadb_get_value_index_int(1, 15),
+                in_radiation = false,
+                radiation_value = 0,
+                radiation_zone = nil
             }
             print("found existing character: "..character.id)
             callback(character)
@@ -147,7 +151,10 @@ function LoadPlayerFromDatabase(player, callback)
                 drink=100,
                 sleep=100,
                 health=100,
-                is_dead=0
+                is_dead=0,
+                in_radiation = false,
+                radiation_value = 0,
+                radiation_zone = nil
             }, function(character)
                 InitStorageForCharacter(character, 30, function(characterStorage)
                     callback(character)
