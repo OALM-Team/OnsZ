@@ -9,6 +9,10 @@ end
 
 
 AddCommand("additem", function(player, item)
+    local character = CharactersData[tostring(GetPlayerSteamId(player))]
+    if character.admin_level == 0 then
+        return
+    end
     TryAddItemToCharacter(player, item)
 end)
 

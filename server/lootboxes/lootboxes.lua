@@ -111,6 +111,11 @@ function OpenLootbox(player, lootboxId)
 end
 
 AddCommand("spawnlootbox", function(player, type)
+    local character = CharactersData[tostring(GetPlayerSteamId(player))]
+    if character.admin_level == 0 then
+        return
+    end
+
     local x,y,z = GetPlayerLocation(player)
     SpawnLootbox(x, y, z, type)
 end)
@@ -124,6 +129,11 @@ AddRemoteEvent("Survival:Lootboxes:OpenLootbox", function(player, lootboxId)
 end)
 
 AddCommand("spawnlootboxsave", function(player, type)
+    local character = CharactersData[tostring(GetPlayerSteamId(player))]
+    if character.admin_level == 0 then
+        return
+    end
+    
     local x, y, z = GetPlayerLocation(player)
     local file = io.open("lootboxes.txt", "a")
     file:write("{id=uuid(),x="..x..",y="..y..",z="..z..",type=\""..type.."\"},\n")

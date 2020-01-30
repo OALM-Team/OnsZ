@@ -18,7 +18,7 @@ function RefreshZombieSpawns()
         for i = math.random(1, spawn.max), spawn.max do
             if tablelength(GetZombiesBySpawn(spawn.id)) < spawn.max then
                 local x,y,z = GetRandomPositionForZombieInZone(spawn)
-                --CreateZombie(x, y, z, spawn.id)
+                CreateZombie(x, y, z, spawn.id)
             end
         end 
     end

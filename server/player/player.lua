@@ -127,6 +127,7 @@ function LoadPlayerFromDatabase(player, callback)
                 sleep=mariadb_get_value_index_int(1, 13),
                 health=mariadb_get_value_index_int(1, 14),
                 is_dead=mariadb_get_value_index_int(1, 15),
+                admin_level=mariadb_get_value_index_int(1, 16),
                 in_radiation = false,
                 radiation_value = 0,
                 radiation_zone = nil
@@ -152,6 +153,7 @@ function LoadPlayerFromDatabase(player, callback)
                 sleep=100,
                 health=100,
                 is_dead=0,
+                admin_level=0,
                 in_radiation = false,
                 radiation_value = 0,
                 radiation_zone = nil
@@ -165,10 +167,10 @@ function LoadPlayerFromDatabase(player, callback)
 end
 
 function InsertPlayerDatabase(character, callback)
-    local query = mariadb_prepare(sql, "INSERT INTO `tbl_character` (`steamid`, `location_x`, `location_y`, `location_z`, `location_h`, `clothing_id`, `blood_group`, `weapons`, `outfit`, `food`, `drink`, `sleep`, `health`, `is_dead`)" ..
-        "VALUES ('?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?');",
+    local query = mariadb_prepare(sql, "INSERT INTO `tbl_character` (`steamid`, `location_x`, `location_y`, `location_z`, `location_h`, `clothing_id`, `blood_group`, `weapons`, `outfit`, `food`, `drink`, `sleep`, `health`, `is_dead`, `admin_level`)" ..
+        "VALUES ('?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?');",
         character.steamid, character.location_x, character.location_y, character.location_z, character.location_h, character.clothing_id, character.blood_group, jsonencode(character.weapons), jsonencode(character.outfit),
-        character.food, character.drink, character.sleep, character.health, character.is_dead)
+        character.food, character.drink, character.sleep, character.health, character.is_dead, 0)
     mariadb_query(sql, query, function()
         local id = mariadb_get_insert_id()
         character.id = id
@@ -189,9 +191,9 @@ function UpdatePlayerDatabase(player)
     character.location_h = h
     character.health = GetPlayerHealth(player)
 
-    local query = mariadb_prepare(sql, "UPDATE `tbl_character` SET location_x='?', location_y='?', location_z='?', location_h='?', clothing_id='?', blood_group='?', weapons='?', outfit='?', food='?', drink='?', sleep='?', health='?', is_dead='?' WHERE id_character='?';",
+    local query = mariadb_prepare(sql, "UPDATE `tbl_character` SET location_x='?', location_y='?', location_z='?', location_h='?', clothing_id='?', blood_group='?', weapons='?', outfit='?', food='?', drink='?', sleep='?', health='?', is_dead='?', admin_level='?' WHERE id_character='?';",
         character.location_x, character.location_y, character.location_z, character.location_h, character.clothing_id, character.blood_group,
-        jsonencode(GetPlayerWeaponsList(player)), jsonencode(character.outfit), character.food, character.drink, character.sleep, character.health, character.is_dead, tonumber(character.id))
+        jsonencode(GetPlayerWeaponsList(player)), jsonencode(character.outfit), character.food, character.drink, character.sleep, character.health, character.is_dead, 0, tonumber(character.id))
     mariadb_query(sql, query, function()
         print("character updated id: ".. character.id)
     end)
@@ -284,3 +286,8 @@ function RequestUseBasicItem(player, storage, template, uid, itemId)
     RemoveItem(player, storage.id, uid)
 end
 AddEvent("Survival:Inventory:UseItem", RequestUseBasicItem)
+
+AddEvent("OnPlayerChat", function(playerid, text)
+    AddPlayerChatAll("<span color=\"#ffffffFF\">"..GetPlayerName(playerid)..": "..text.."</>")
+	return false
+end)
