@@ -20,8 +20,17 @@ function ClientRequestInventoryData(player)
     for _, storage in pairs(GetStoragesByCharacterId(GetPlayerPropertyValue(player, 'characterID'))) do
         SendStorageConfig(player, storage.id)
     end
+
+    RefreshOutfitInventory(player)
 end
 AddRemoteEvent("Survival:Inventory:ClientRequestInventoryData", ClientRequestInventoryData)
+
+function RefreshOutfitInventory(player)
+    CallRemoteEvent(player, "Survival:Inventory:ResetEquipment")
+    for k, outfitItem in pairs(CharactersData[tostring(GetPlayerSteamId(player))].outfit) do
+        CallRemoteEvent(player, "Survival:Inventory:ReceiveEquipment", jsonencode(outfitItem))
+    end
+end
 
 function GetStoragesByCharacterId(characterId)
     local characterStorages = {}
@@ -402,3 +411,35 @@ function ServerRequestUseItem(player, storageId, uid)
     CallEvent("Survival:Inventory:UseItem", player, storage, template, uid, item.itemId)
 end
 AddRemoteEvent("Survival:Inventory:ServerRequestUseItem", ServerRequestUseItem)
+
+function GetOutfitPlayerByType(player, outfitType)
+    for k, outfitItem in pairs(CharactersData[tostring(GetPlayerSteamId(player))].outfit) do
+        if outfitItem.type == outfitType then
+            return outfitItem
+        end
+    end
+    return nil
+end
+
+function RemoveOutfitPlayerByType(player, outfitType)
+    for k, outfitItem in pairs(CharactersData[tostring(GetPlayerSteamId(player))].outfit) do
+        if outfitItem.type == outfitType then
+            table.remove(CharactersData[tostring(GetPlayerSteamId(player))].outfit, k)
+        end
+    end
+end
+
+function ServerRequestUnequipOutfit(player, outfitType)
+    local outfitItem = GetOutfitPlayerByType(player, outfitType)
+    if outfitItem == nil then
+        return
+    end
+
+    if TryAddItemToCharacter(player, outfitItem.itemId) then
+        RemoveOutfitPlayerByType(player, outfitType)
+        RefreshOutfitInventory(player)
+        UpdatePlayerDatabase(player)
+        SetPlayerOutfit(player)
+    end
+end
+AddRemoteEvent("Survival:Inventory:ServerRequestUnequipOutfit", ServerRequestUnequipOutfit)

@@ -3,11 +3,19 @@ InventoryItems = {}
 InventoryItems["water"] = {
     name="Bouteille d'eau",
     dimensions={w=1,h=2},
+    is_food=true,
+    food_value=0,
+    drink_value=30,
+    sleep_value=0,
     desc="Une simple bouteille d'eau"
 }
 InventoryItems["apple"] = {
     name="Pomme",
     dimensions={w=1,h=1},
+    is_food=true,
+    food_value=20,
+    drink_value=0,
+    sleep_value=0,
     desc="Une pomme juteuse"
 }
 InventoryItems["pickaxe"] = {
@@ -18,6 +26,10 @@ InventoryItems["pickaxe"] = {
 InventoryItems["sandwish"] = {
     name="Sandwish",
     dimensions={w=3,h=1},
+    is_food=true,
+    food_value=40,
+    drink_value=0,
+    sleep_value=0,
     desc="Pas sûr qu'il soit toujours bon"
 }
 InventoryItems["torchlight"] = {
@@ -30,26 +42,13 @@ InventoryItems["gas"] = {
     dimensions={w=2,h=2},
     desc="Permet de remettre du carburant dans un véhicule"
 }
-InventoryItems["green_pant"] = {
-    name="Pantalon Vert",
-    dimensions={w=2,h=4},
-    desc="Un pantalon vert",
-    outfit_type="pant",
-    is_outfit=true
-}
-InventoryItems["black_tshirt"] = {
-    name="Tshirt Noir",
-    dimensions={w=3,h=3},
-    desc="Un tshirt noir",
-    outfit_type="top",
-    is_outfit=true
-}
 InventoryItems["bloog_bag_oplus"] = {
     name="Poche de sang (O+)",
     dimensions={w=1,h=2},
     desc="Permet de faire une transfusion de sang (O+)"
 }
 
+--------- WEAPONS ----------
 InventoryItems["deagle"] = {
     is_weapon=true,
     id_weapon=2,
@@ -81,4 +80,50 @@ InventoryItems["ammo_9_mm"] = {
     name="Cartouche .9mm",
     dimensions={w=2,h=1},
     desc="Cartouche pour Glock"
+}
+InventoryItems["shotgun_1"] = {
+    is_weapon=true,
+    id_weapon=7,
+    name="Fusil a pompe",
+    dimensions={w=8,h=2},
+    desc="Utilise des balles de .9mm"
+}
+InventoryItems["ammo_12_mm"] = {
+    is_weapon=false,
+    is_ammo=true,
+    ammo_weapons={7},
+    ammo_size=10,
+    name="Cartouche .12mm",
+    dimensions={w=2,h=1},
+    desc="Cartouche pour Fusil a pompe"
+}
+
+--------- OUTFITS ----------
+InventoryItems["green_pant"] = {
+    name="Pantalon Vert",
+    dimensions={w=2,h=4},
+    desc="Un pantalon vert",
+    outfit_type="pant",
+    is_outfit=true
+}
+InventoryItems["red_pant"] = {
+    name="Pantalon Rouge",
+    dimensions={w=2,h=4},
+    desc="Un pantalon rouge",
+    outfit_type="pant",
+    is_outfit=true
+}
+InventoryItems["black_tshirt"] = {
+    name="Tshirt Noir",
+    dimensions={w=3,h=3},
+    desc="Un tshirt noir",
+    outfit_type="top",
+    is_outfit=true
+}
+InventoryItems["blue_tshirt"] = {
+    name="Tshirt Bleu",
+    dimensions={w=3,h=3},
+    desc="Un tshirt bleu",
+    outfit_type="top",
+    is_outfit=true
 }

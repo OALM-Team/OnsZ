@@ -41,6 +41,12 @@ function refreshLifeAndArmor(life, armor) {
   document.querySelector(".character-armor-progress").style.width = armor + "%";
 }
 
+function refreshFoodDrinkSleep(food, drink, sleep) {
+  document.querySelector(".character-food-progress").style.width = food + "%";
+  document.querySelector(".character-drink-progress").style.width = drink + "%";
+  document.querySelector(".character-sleep-progress").style.width = sleep + "%";
+}
+
 class Color {
     constructor(r, g, b) {
       this.set(r, g, b);

@@ -91,9 +91,10 @@
 .progress-text {
     position: absolute;
     top: 3px;
-    left: 10px;
+    left: 5px;
     color: white;
-    font-size: 13px;
+    font-size: 11px;
+    text-shadow: 1px 1px black;
 }
 
 .multi-character-progress {
@@ -104,6 +105,22 @@
     display: inline;
     box-sizing:border-box;
     height: 15px;
+}
+
+.progress-single-container {
+    width: 30%;
+    height: 20px;
+    background-color: rgba(0, 0, 0, 0.664);
+    border-radius: 3px;
+    display: inline-block;
+    position: relative;
+    border: 1px solid #000000a9; 
+}
+
+.progress-single-bar {
+    width: 100%;
+    height: 20px;
+    transition: 0.3s;
 }
 
 .character-food-progress {

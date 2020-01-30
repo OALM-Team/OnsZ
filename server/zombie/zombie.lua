@@ -18,7 +18,7 @@ function RefreshZombieSpawns()
         for i = math.random(1, spawn.max), spawn.max do
             if tablelength(GetZombiesBySpawn(spawn.id)) < spawn.max then
                 local x,y,z = GetRandomPositionForZombieInZone(spawn)
-                CreateZombie(x, y, z, spawn.id)
+                --CreateZombie(x, y, z, spawn.id)
             end
         end 
     end
@@ -161,9 +161,11 @@ AddEvent("OnNPCDeath", function(npc, player)
     for _,p in pairs(GetPlayersInRange3D(x, y, z, 2000)) do
         CallRemoteEvent(p, "Survival:Zombie:Death", zombie.npc, x,y,z)
     end
-    local lootbox = SpawnLootbox(x,y,z,"zombie_1")
-    Delay(60000 * 5, function()
+    if math.random(1, 5) == 1 then
+        local lootbox = SpawnLootbox(x,y,z,"zombie_1")
         lootbox.storage.items = {}
+    end
+    Delay(60000 * 5, function()
         DestroyNPC(zombie.npc)
         Zombies[npc] = nil
     end)

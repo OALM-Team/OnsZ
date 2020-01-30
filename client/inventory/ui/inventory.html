@@ -15,6 +15,11 @@
         <div class="context-menu-item" data-choice="use">Utiliser</div>
         <div class="context-menu-item" data-choice="throw">Jeter</div>
     </div>
+
+    <div id="context-menu-item-equipment" class="context-menu">
+        <div class="context-menu-item" data-choice="unequip">Déséquiper</div>
+    </div>
+
     <div style="margin-top: 20px;">
         <!-- Main inventory -->
         <div class="animated bounceIn" style="width: 475px; margin-right: auto; margin-left: auto; animation-duration: 0.7s;">
@@ -24,11 +29,17 @@
                 </div>
                 <div class="window-content">
                     <div class="inventory-content">
-                        <div class="inventory-content-square">
+                        <div class="inventory-content-square" data-equip-type="top">
                             <img src="./icons/equipement_tshirt.png" style="position: absolute; width: 40px; height: 40px; opacity: 0.1; top: 7px; left: 8px;" />
+                            <div class="equipment-container" style="position: absolute; top: 7px; left: 8px; display: none;">
+                                <img src="./icons/equipement_tshirt.png" style="position: absolute; width: 40px; height: 40px;" />
+                            </div>
                         </div>
-                        <div class="inventory-content-square">
+                        <div class="inventory-content-square" data-equip-type="pant">
                             <img src="./icons/equipement_pant.png" style="position: absolute; width: 25px; height: 40px; opacity: 0.1; top: 7px; left: 15px;" />
+                            <div class="equipment-container" style="position: absolute; top: 7px; left: 8px; display: none;">
+                                <img src="./icons/equipement_tshirt.png" style="position: absolute; width: 40px; height: 40px;" />
+                            </div>
                         </div>
                     </div>
                 </div>

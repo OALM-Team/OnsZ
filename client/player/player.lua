@@ -4,15 +4,18 @@ end
 AddRemoteEvent("Survival:Player:RefreshPlayerOutfit", RefreshPlayerOutfit)
 
 AddEvent("OnPlayerNetworkUpdatePropertyValue", function(player, name, value)
-  if name == "_outfitPantId" then
+  if name == "_outfitPantId" or name == "_outfitTopId" then
     --SetPlayerClothingPreset(player, value)
     UpdatePlayerOutfit(player)
   end
 end)
 
+AddEvent("OnPlayerStreamIn", function(player)
+  UpdatePlayerOutfit(player)
+end)
+
 function UpdatePlayerOutfit(player)
   local SkeletalMeshComponent = GetPlayerSkeletalMeshComponent(player, "Body")
-  AddPlayerChat("update outfit")
 
   -- pant
   if GetPlayerPropertyValue(player, "_outfitPantId") then
@@ -28,7 +31,6 @@ function UpdatePlayerOutfit(player)
     SkeletalMeshComponent = GetPlayerSkeletalMeshComponent(player, "Clothing4")
     SkeletalMeshComponent:SetSkeletalMesh(nil)
   end
-
   
   if GetPlayerPropertyValue(player, "_outfitTopId") then
     local topTemplate = OutfitsTemplate[GetPlayerPropertyValue(player, "_outfitTopId")]

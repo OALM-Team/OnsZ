@@ -1,5 +1,6 @@
 function OnPackageStart()
     CreateTimer(function()
+        ShowHealthHUD(false)
         RefreshLifeAndArmor()
     end, 300)
 
@@ -26,4 +27,5 @@ AddRemoteEvent("Survival:GlobalUI:CreateNotification", CreateNotification)
 
 function RefreshLifeAndArmor()
     ExecuteWebJS(GlobalUI, "refreshLifeAndArmor("..GetPlayerHealth()..", "..GetPlayerArmor()..")")
+    ExecuteWebJS(GlobalUI, "refreshFoodDrinkSleep("..GetPlayerPropertyValue(GetPlayerId(), "_foodStock")..", "..GetPlayerPropertyValue(GetPlayerId(), "_drinkStock")..", "..GetPlayerPropertyValue(GetPlayerId(), "_sleepStock")..")")
 end

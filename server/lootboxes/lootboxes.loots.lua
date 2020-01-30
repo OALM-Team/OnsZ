@@ -7,6 +7,18 @@ LootboxesLootsType["zombie_1"] = {
             itemId = "apple",
             slot = 0
         }
+    },
+    {
+        {
+            itemId = "green_pant",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "black_tshirt",
+            slot = 0
+        }
     }
 }
 

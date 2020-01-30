@@ -71,9 +71,13 @@
 		"client/inventory/ui/icons/bloog_bag_oplus.png",
 		"client/inventory/ui/icons/military_outfit_1.png",
 		"client/inventory/ui/icons/green_pant.png",
+		"client/inventory/ui/icons/red_pant.png",
 		"client/inventory/ui/icons/black_tshirt.png",
+		"client/inventory/ui/icons/blue_tshirt.png",
 		"client/inventory/ui/icons/equipement_tshirt.png",
 		"client/inventory/ui/icons/equipement_pant.png",
+		"client/inventory/ui/icons/shotgun_1.png",
+		"client/inventory/ui/icons/ammo_12_mm.png",
 		
 		"client/globalui/notif_1.mp3",
 		"client/globalui/notif_2.mp3",

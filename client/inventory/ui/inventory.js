@@ -289,6 +289,27 @@ function removeItem(inventoryId, uid) {
     items[inventoryId].splice(items[inventoryId].indexOf(item), 1)
 }
 
+function resetEquipment() {
+    var container = document.querySelectorAll("[data-equip-type] .equipment-container");
+    for(const c of container) {
+        c.style.display = "none";
+    }
+}
+
+function receiveEquipment(data) {
+    var container = document.querySelector("[data-equip-type='" + data.type + "'] .equipment-container");
+    container.style.display = "block";
+    container.querySelector("img").src = './icons/' + data.itemId + '.png';
+
+    $(container).contextmenu(function() {
+        showContextMenu("#context-menu-item-equipment", $(container), (choice) => {
+            if(choice == "unequip") {
+                CallEvent("Survival:Inventory:RequestUnequipOutfit", data.type)
+            }
+        })
+    });
+}
+
 $(function(){
     CallEvent("Survival:Inventory:RequestInventoryData")
 });

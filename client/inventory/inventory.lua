@@ -99,3 +99,24 @@ function RemoveItem(storageId, uid)
     ExecuteWebJS(InventoryUI, "removeItem(\""..storageId.."\", \""..uid.."\")")
 end
 AddRemoteEvent("Survival:Inventory:RemoveItem", RemoveItem)
+
+function ReceiveEquipment(data)
+    if InventoryUI == nil then
+        return
+    end
+    ExecuteWebJS(InventoryUI, "receiveEquipment("..data..")")
+end
+AddRemoteEvent("Survival:Inventory:ReceiveEquipment", ReceiveEquipment)
+
+function ResetEquipment()
+    if InventoryUI == nil then
+        return
+    end
+    ExecuteWebJS(InventoryUI, "resetEquipment()")
+end
+AddRemoteEvent("Survival:Inventory:ResetEquipment", ResetEquipment)
+
+function RequestUnequipOutfit(typeOutfit)
+    CallRemoteEvent("Survival:Inventory:ServerRequestUnequipOutfit", typeOutfit)
+end
+AddEvent("Survival:Inventory:RequestUnequipOutfit", RequestUnequipOutfit)
