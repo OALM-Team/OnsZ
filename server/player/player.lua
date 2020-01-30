@@ -87,36 +87,39 @@ end
 AddEvent("OnPlayerSpawn", OnPlayerSpawn)
 
 function TrySpawn(player, retryCount)
-    local character = CharactersData[tostring(GetPlayerSteamId(player))]
-    if character == nil then
-        if retryCount == 20 then
-            KickPlayer(player, "Erreur d'identification Steam")
+    
+    RegisterPlayerDatabase(player, function(character)
+        local character = CharactersData[tostring(GetPlayerSteamId(player))]
+        if character == nil then
+            if retryCount == 20 then
+                KickPlayer(player, "Erreur d'identification Steam")
+                return
+            end
+            Delay(5000, function()
+                print("can't found character, retry:"..retryCount)
+                TrySpawn(player, retryCount + 1)
+            end)
             return
         end
-        Delay(5000, function()
-            print("can't found character, retry:"..retryCount)
-            TrySpawn(player, retryCount + 1)
-        end)
-        return
-    end
-
-    if character.is_dead == 1 then
-        AjustFood(player, 100)
-        AjustDrink(player, 100)
-        AjustSleep(player, 100)
-        character.health = 100
-        character.is_dead = 0
-        UpdatePlayerDatabase(player)
-        SetPlayerLocation(player, 45767, 48163, 2265, 90.0)
-        
-        CallRemoteEvent(player, "Survival:GlobalUI:SetDeathScreen", "false")
-    else
-        EquipPlayerCharacterWeapons(player)
-        SetPlayerOutfit(player)
-        SetPlayerLocation(player, character.location_x, character.location_y, character.location_z, character.location_h)
-    end
-
-    SetPlayerHealth(player, character.health)
+    
+        if character.is_dead == 1 then
+            AjustFood(player, 100)
+            AjustDrink(player, 100)
+            AjustSleep(player, 100)
+            character.health = 100
+            character.is_dead = 0
+            UpdatePlayerDatabase(player)
+            SetPlayerLocation(player, 45767, 48163, 2265, 90.0)
+            
+            CallRemoteEvent(player, "Survival:GlobalUI:SetDeathScreen", "false")
+        else
+            EquipPlayerCharacterWeapons(player)
+            SetPlayerOutfit(player)
+            SetPlayerLocation(player, character.location_x, character.location_y, character.location_z, character.location_h)
+        end
+    
+        SetPlayerHealth(player, character.health)
+    end)
 end
 
 
