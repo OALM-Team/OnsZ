@@ -32,7 +32,7 @@ AddEvent("OnPackageStart", OnPackageStart)
 
 AddEvent("OnPlayerSteamAuth", function(player)
     RegisterPlayerDatabase(player, function(character)
-        print("Steam logged: " .. tostringGetPlayerSteamId(player)))
+        print("Steam logged: " .. tostringGetPlayerSteamId(player))
     end)
     TrySpawn(player)
 end)
