@@ -88,7 +88,7 @@ AddEvent("OnPlayerSpawn", OnPlayerSpawn)
 function TrySpawn(player, retryCount)
     local character = CharactersData[tostring(GetPlayerSteamId(player))]
     if character == nil then
-        if retryCount == 5 then
+        if retryCount == 20 then
             KickPlayer(player, "Erreur d'identification Steam")
             return
         end
