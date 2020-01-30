@@ -2,7 +2,11 @@ InventoryUI = nil
 
 function OnKeyPress(key)
     if not IsCtrlPressed() and key == "F2" then
-        OpenInventoryUI()
+        if InventoryUI == nil then
+            OpenInventoryUI()
+        else
+            CloseInventoryUI()
+        end
     end
     if IsCtrlPressed() and key == "G" then
         CallRemoteEvent("Survival:Weapon:StoreCurrentWeapon")
@@ -12,7 +16,7 @@ AddEvent("OnKeyPress", OnKeyPress)
 
 function OpenInventoryUI()
     if InventoryUI ~= nil then
-        CloseInventoryUI()
+        --CloseInventoryUI()
         return
     end
     InventoryUI = CreateWebUI(0, 0, 0, 0, 5, 50)
@@ -73,21 +77,41 @@ end
 AddRemoteEvent("Survival:Inventory:ReceiveInventoryItem", ReceiveInventoryItem)
 
 function RequestChangeItemSlot(storageId, uid, toSlot)
+    if PlayerIsFreezed then
+        CreateNotification("#ff0051", "Action impossible", "Impossible de faire ça pour le moment", 5000, 2)
+        return
+    end
+
     CallRemoteEvent("Survival:Inventory:ServerRequestChangeSlotItem", storageId, uid, toSlot)
 end
 AddEvent("Survival:Inventory:RequestChangeSlotItem", RequestChangeItemSlot)
 
 function RequestChangeInventorySlotItem(storageId, toStorageId, uid, toSlot)
+    if PlayerIsFreezed then
+        CreateNotification("#ff0051", "Action impossible", "Impossible de faire ça pour le moment", 5000, 2)
+        return
+    end
+
     CallRemoteEvent("Survival:Inventory:ServerRequestChangeInventorySlotItem", storageId, toStorageId, uid, toSlot)
 end
 AddEvent("Survival:Inventory:RequestChangeInventorySlotItem", RequestChangeInventorySlotItem)
 
 function RequestThrowItem(storageId, uid)
+    if PlayerIsFreezed then
+        CreateNotification("#ff0051", "Action impossible", "Impossible de faire ça pour le moment", 5000, 2)
+        return
+    end
+
     CallRemoteEvent("Survival:Inventory:ServerRequestThrowItem", storageId, uid)
 end
 AddEvent("Survival:Inventory:RequestThrowItem", RequestThrowItem)
 
 function RequestUseItem(storageId, uid)
+    if PlayerIsFreezed then
+        CreateNotification("#ff0051", "Action impossible", "Impossible de faire ça pour le moment", 5000, 2)
+        return
+    end
+
     CallRemoteEvent("Survival:Inventory:ServerRequestUseItem", storageId, uid)
 end
 AddEvent("Survival:Inventory:RequestUseItem", RequestUseItem)
@@ -117,6 +141,11 @@ end
 AddRemoteEvent("Survival:Inventory:ResetEquipment", ResetEquipment)
 
 function RequestUnequipOutfit(typeOutfit)
+    if PlayerIsFreezed then
+        CreateNotification("#ff0051", "Action impossible", "Impossible de faire ça pour le moment", 5000, 2)
+        return
+    end
+    
     CallRemoteEvent("Survival:Inventory:ServerRequestUnequipOutfit", typeOutfit)
 end
 AddEvent("Survival:Inventory:RequestUnequipOutfit", RequestUnequipOutfit)

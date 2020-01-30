@@ -1,3 +1,5 @@
+PlayerIsFreezed = false
+
 function RefreshPlayerOutfit(player)
     UpdatePlayerOutfit(player)
 end
@@ -50,3 +52,17 @@ function UpdatePlayerOutfit(player)
   SkeletalMeshComponent = GetPlayerSkeletalMeshComponent(player, "Clothing5")
 	SkeletalMeshComponent:SetSkeletalMesh(USkeletalMesh.LoadFromAsset("/Game/CharacterModels/SkeletalMesh/Outfits/HZN_Outfit_Piece_NormalShoes_LPR"))
 end
+
+function FreezePlayer()
+  PlayerIsFreezed = true
+  SetIgnoreLookInput(true)
+  SetIgnoreMoveInput(true)
+end
+AddRemoteEvent("Survival:Player:FreezePlayer", FreezePlayer)
+
+function UnFreezePlayer()
+  PlayerIsFreezed = false
+  SetIgnoreLookInput(false)
+  SetIgnoreMoveInput(false)
+end
+AddRemoteEvent("Survival:Player:UnFreezePlayer", UnFreezePlayer)

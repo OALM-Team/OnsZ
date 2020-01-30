@@ -42,10 +42,68 @@ InventoryItems["gas"] = {
     dimensions={w=2,h=2},
     desc="Permet de remettre du carburant dans un véhicule"
 }
+
+-------------- BLOOD ---------------
+InventoryItems["blood_test"] = {
+    name="Kit de test groupe sanguin",
+    dimensions={w=3,h=2},
+    desc="Un kit de test pour savoir votre groupe sanguin"
+}
 InventoryItems["bloog_bag_oplus"] = {
     name="Poche de sang (O+)",
+    is_blood_bag=true,
+    blood_bag_type="O+",
     dimensions={w=1,h=2},
     desc="Permet de faire une transfusion de sang (O+)"
+}
+InventoryItems["bloog_bag_ominus"] = {
+    name="Poche de sang (O-)",
+    is_blood_bag=true,
+    blood_bag_type="O-",
+    dimensions={w=1,h=2},
+    desc="Permet de faire une transfusion de sang (O-)"
+}
+InventoryItems["bloog_bag_bplus"] = {
+    name="Poche de sang (B+)",
+    is_blood_bag=true,
+    blood_bag_type="B+",
+    dimensions={w=1,h=2},
+    desc="Permet de faire une transfusion de sang (B+)"
+}
+InventoryItems["bloog_bag_bminus"] = {
+    name="Poche de sang (B-)",
+    is_blood_bag=true,
+    blood_bag_type="B-",
+    dimensions={w=1,h=2},
+    desc="Permet de faire une transfusion de sang (B-)"
+}
+InventoryItems["bloog_bag_aplus"] = {
+    name="Poche de sang (A+)",
+    is_blood_bag=true,
+    blood_bag_type="A+",
+    dimensions={w=1,h=2},
+    desc="Permet de faire une transfusion de sang (A+)"
+}
+InventoryItems["bloog_bag_aminus"] = {
+    name="Poche de sang (A-)",
+    is_blood_bag=true,
+    blood_bag_type="A-",
+    dimensions={w=1,h=2},
+    desc="Permet de faire une transfusion de sang (A-)"
+}
+InventoryItems["bloog_bag_abplus"] = {
+    name="Poche de sang (AB+)",
+    is_blood_bag=true,
+    blood_bag_type="AB+",
+    dimensions={w=1,h=2},
+    desc="Permet de faire une transfusion de sang (AB+)"
+}
+InventoryItems["bloog_bag_abminus"] = {
+    name="Poche de sang (AB-)",
+    is_blood_bag=true,
+    blood_bag_type="AB-",
+    dimensions={w=1,h=2},
+    desc="Permet de faire une transfusion de sang (AB-)"
 }
 
 --------- WEAPONS ----------

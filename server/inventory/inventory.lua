@@ -42,6 +42,11 @@ function GetStoragesByCharacterId(characterId)
     return characterStorages
 end
 
+function ClearStorage(storage)
+    storage.items = {}
+    UpdateStorage(storage)
+end
+
 function SendStorageConfig(player, storageId) 
     local storage = Storages[storageId]
     CallRemoteEvent(player, "Survival:Inventory:ReceiveInventoryStorageConfig", storage.id, storage.name, storage.slots)
@@ -408,6 +413,12 @@ function ServerRequestUseItem(player, storageId, uid)
         return
     end
     local template = InventoryItems[item.itemId]
+    
+    local character = CharactersData[tostring(GetPlayerSteamId(player))]
+    if character.is_dead == 1 then
+        CallRemoteEvent(player, "Survival:GlobalUI:CreateNotification", "#ff0051", "Action impossible", "Vous êtes mort", 5000, 2)
+        return
+    end
     CallEvent("Survival:Inventory:UseItem", player, storage, template, uid, item.itemId)
 end
 AddRemoteEvent("Survival:Inventory:ServerRequestUseItem", ServerRequestUseItem)

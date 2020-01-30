@@ -1,5 +1,4 @@
 CharactersData = {}
-BloodGroups = {"AB+", "AB-", "A+", "A-", "B+", "B-", "O+", "O-"}
 FoodDrinkSleepRatio = 1
 
 function OnPackageStart()
@@ -31,6 +30,44 @@ function OnPackageStart()
 end
 AddEvent("OnPackageStart", OnPackageStart)
 
+AddEvent("OnPlayerSteamAuth", function(player)
+    RegisterPlayerDatabase(player, function(character)
+        print("character enter in game id: "..character.id)
+        SetPlayerPropertyValue(player, 'characterID', character.id, true)
+        --RequestPlayIntroCinematic(player)
+        EquipPlayerCharacterWeapons(player)
+        SetPlayerOutfit(player)
+
+        -- setup drink food sleep
+        SetPlayerPropertyValue(player, '_foodStock', character.food, true)
+        SetPlayerPropertyValue(player, '_drinkStock', character.drink, true)
+        SetPlayerPropertyValue(player, '_sleepStock', character.sleep, true)
+
+        character.in_radiation = false
+        character.radiation_value = 0
+        character.radiation_zone = nil
+        SetPlayerPropertyValue(player, '_radiationStock', character.radiation_value, true)
+        
+        LoadStoragesForCharacter(character, function()
+            if character.is_dead == 1 then
+                AjustFood(player, 100)
+                AjustDrink(player, 100)
+                AjustSleep(player, 100)
+                character.health = 100
+                character.is_dead = 0
+                UpdatePlayerDatabase(player)
+                SetPlayerLocation(player, 45767, 48163, 2265, 90.0)
+                
+                CallRemoteEvent(player, "Survival:GlobalUI:SetDeathScreen", "false")
+            else
+                SetPlayerLocation(player, character.location_x, character.location_y, character.location_z, character.location_h)
+            end
+
+            SetPlayerHealth(player, character.health)
+        end)
+    end)
+end)
+
 function OnPlayerJoin(player)
     SetPlayerSpawnLocation(player, 45767, 48163, 2265, 90.0)
 end
@@ -42,28 +79,45 @@ end
 AddEvent("OnPlayerQuit", OnPlayerQuit)
 
 function OnPlayerSpawn(player)
-    Delay(2000, function()
-        RegisterPlayerDatabase(player, function(character)
-            print("character enter in game id: "..character.id)
-            SetPlayerPropertyValue(player, 'characterID', character.id, true)
-            --RequestPlayIntroCinematic(player)
-            EquipPlayerCharacterWeapons(player)
-            SetPlayerOutfit(player)
-
-            -- setup drink food sleep
-            SetPlayerPropertyValue(player, '_foodStock', character.food, true)
-            SetPlayerPropertyValue(player, '_drinkStock', character.drink, true)
-            SetPlayerPropertyValue(player, '_sleepStock', character.sleep, true)
-            
-            SetPlayerHealth(player, character.health)
-
-            LoadStoragesForCharacter(character, function()
-                SetPlayerLocation(player, character.location_x, character.location_y, character.location_z, character.location_h)
-            end)
-        end)
+    Delay(5000, function()
+        TrySpawn(player, 1)
     end)
 end
 AddEvent("OnPlayerSpawn", OnPlayerSpawn)
+
+function TrySpawn(player, retryCount)
+    local character = CharactersData[tostring(GetPlayerSteamId(player))]
+    if character == nil then
+        if retryCount == 5 then
+            KickPlayer(player, "Erreur d'identification Steam")
+            return
+        end
+        Delay(5000, function()
+            print("can't found character, retry:"..retryCount)
+            TrySpawn(player, retryCount + 1)
+        end)
+        return
+    end
+
+    if character.is_dead == 1 then
+        AjustFood(player, 100)
+        AjustDrink(player, 100)
+        AjustSleep(player, 100)
+        character.health = 100
+        character.is_dead = 0
+        UpdatePlayerDatabase(player)
+        SetPlayerLocation(player, 45767, 48163, 2265, 90.0)
+        
+        CallRemoteEvent(player, "Survival:GlobalUI:SetDeathScreen", "false")
+    else
+        EquipPlayerCharacterWeapons(player)
+        SetPlayerOutfit(player)
+        SetPlayerLocation(player, character.location_x, character.location_y, character.location_z, character.location_h)
+    end
+
+    SetPlayerHealth(player, character.health)
+end
+
 
 function RegisterPlayerDatabase(player, callback)
     LoadPlayerFromDatabase(player, function(character)
@@ -91,7 +145,8 @@ function LoadPlayerFromDatabase(player, callback)
                 food=mariadb_get_value_index_int(1, 11),
                 drink=mariadb_get_value_index_int(1, 12),
                 sleep=mariadb_get_value_index_int(1, 13),
-                health=mariadb_get_value_index_int(1, 14)
+                health=mariadb_get_value_index_int(1, 14),
+                is_dead=mariadb_get_value_index_int(1, 15)
             }
             print("found existing character: "..character.id)
             callback(character)
@@ -112,7 +167,8 @@ function LoadPlayerFromDatabase(player, callback)
                 food=100,
                 drink=100,
                 sleep=100,
-                health=100
+                health=100,
+                is_dead=0
             }, function(character)
                 InitStorageForCharacter(character, 30, function(characterStorage)
                     callback(character)
@@ -123,10 +179,10 @@ function LoadPlayerFromDatabase(player, callback)
 end
 
 function InsertPlayerDatabase(character, callback)
-    local query = mariadb_prepare(sql, "INSERT INTO `tbl_character` (`steamid`, `location_x`, `location_y`, `location_z`, `location_h`, `clothing_id`, `blood_group`, `weapons`, `outfit`, `food`, `drink`, `sleep`, `health`)" ..
+    local query = mariadb_prepare(sql, "INSERT INTO `tbl_character` (`steamid`, `location_x`, `location_y`, `location_z`, `location_h`, `clothing_id`, `blood_group`, `weapons`, `outfit`, `food`, `drink`, `sleep`, `health`, `is_dead`)" ..
         "VALUES ('?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?');",
         character.steamid, character.location_x, character.location_y, character.location_z, character.location_h, character.clothing_id, character.blood_group, jsonencode(character.weapons), jsonencode(character.outfit),
-        character.food, character.drink, character.sleep, character.health)
+        character.food, character.drink, character.sleep, character.health, character.is_dead)
     mariadb_query(sql, query, function()
         local id = mariadb_get_insert_id()
         character.id = id
@@ -147,9 +203,9 @@ function UpdatePlayerDatabase(player)
     character.location_h = h
     character.health = GetPlayerHealth(player)
 
-    local query = mariadb_prepare(sql, "UPDATE `tbl_character` SET location_x='?', location_y='?', location_z='?', location_h='?', clothing_id='?', blood_group='?', weapons='?', outfit='?', food='?', drink='?', sleep='?', health='?' WHERE id_character='?';",
+    local query = mariadb_prepare(sql, "UPDATE `tbl_character` SET location_x='?', location_y='?', location_z='?', location_h='?', clothing_id='?', blood_group='?', weapons='?', outfit='?', food='?', drink='?', sleep='?', health='?', is_dead='?' WHERE id_character='?';",
         character.location_x, character.location_y, character.location_z, character.location_h, character.clothing_id, character.blood_group,
-        jsonencode(GetPlayerWeaponsList(player)), jsonencode(character.outfit), character.food, character.drink, character.sleep, character.health, tonumber(character.id))
+        jsonencode(GetPlayerWeaponsList(player)), jsonencode(character.outfit), character.food, character.drink, character.sleep, character.health, character.is_dead, tonumber(character.id))
     mariadb_query(sql, query, function()
         print("character updated id: ".. character.id)
     end)

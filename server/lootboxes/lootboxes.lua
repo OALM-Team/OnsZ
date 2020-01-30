@@ -40,14 +40,30 @@ function DeleteLootbox(lootbox)
     Lootboxes[lootbox.id] = nil
 end
 
-function SpawnLootbox(x,y,z,type)
+function SpawnLootbox(x,y,z,type,copyStorage)
+    local loots = {}
+    if copyStorage == nil then
+        loots = GenerateLootsByType(type)
+    else
+        loots = copyStorage.items
+    end
+
+    local slots = 30
+    if copyStorage ~= nil then
+        slots = copyStorage.slots
+    end
+
+    for _,itemsCopy in pairs(loots) do
+        itemsCopy.uid = uuid()
+    end
+
     -- create storage
     local storage = {
         id = uuid(),
         name = "Caisse",
         id_character = -1,
-        slots = 30,
-        items = GenerateLootsByType(type),
+        slots = slots,
+        items = loots,
         type = "box"
     }
 

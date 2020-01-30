@@ -1,3 +1,5 @@
+LastRadiationSoundPlayed = nil
+
 function OnPackageStart()
     CreateTimer(function()
         ShowHealthHUD(false)
@@ -28,4 +30,42 @@ AddRemoteEvent("Survival:GlobalUI:CreateNotification", CreateNotification)
 function RefreshLifeAndArmor()
     ExecuteWebJS(GlobalUI, "refreshLifeAndArmor("..GetPlayerHealth()..", "..GetPlayerArmor()..")")
     ExecuteWebJS(GlobalUI, "refreshFoodDrinkSleep("..GetPlayerPropertyValue(GetPlayerId(), "_foodStock")..", "..GetPlayerPropertyValue(GetPlayerId(), "_drinkStock")..", "..GetPlayerPropertyValue(GetPlayerId(), "_sleepStock")..")")
+
+    -- radiation
+    if GetPlayerPropertyValue(GetPlayerId(), "_radiationStock") > 0 then
+        if LastRadiationSoundPlayed == nil then
+            LastRadiationSoundPlayed = CreateSound("client/globalui/radiation_1.mp3")
+            SetSoundVolume(LastRadiationSoundPlayed, 0.3)
+            Delay(80000, function()
+                LastRadiationSoundPlayed = nil
+            end)
+        end
+    else
+        if LastRadiationSoundPlayed ~= nil then
+            DestroySound(LastRadiationSoundPlayed)
+        end
+    end
+    ExecuteWebJS(GlobalUI, "refreshRadiation("..GetPlayerPropertyValue(GetPlayerId(), "_radiationStock")..")")
 end
+
+
+function SetDeathScreen(state)
+    if GlobalUI == nil then
+        return
+    end
+    
+    if state == "true" then
+        SetSoundVolume(CreateSound("client/globalui/flatline_death.mp3"), 0.2)
+    end
+    ExecuteWebJS(GlobalUI, "showDeathscreen(\""..state.."\")")
+end
+AddRemoteEvent("Survival:GlobalUI:SetDeathScreen", SetDeathScreen)
+
+function AddProgressBar(id, text, color, duration)
+    if GlobalUI == nil then
+        return
+    end
+
+    ExecuteWebJS(GlobalUI, "addProgressBar('"..id.."', '"..text.."', '"..color.."', "..duration..")")
+end
+AddRemoteEvent("Survival:GlobalUI:AddProgressBar", AddProgressBar)

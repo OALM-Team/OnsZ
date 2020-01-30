@@ -23,7 +23,11 @@ AddEvent("OnPackageStart", OnPackageStart)
 
 function OnKeyPress(key)
     if not IsCtrlPressed() and key == "E" then
-        TryOpenNearbyLootbox()
+        if InventoryUI ~= nil then
+            CloseInventoryUI()
+        else
+            TryOpenNearbyLootbox()
+        end
     end
 end
 AddEvent("OnKeyPress", OnKeyPress)

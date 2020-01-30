@@ -47,6 +47,44 @@ function refreshFoodDrinkSleep(food, drink, sleep) {
   document.querySelector(".character-sleep-progress").style.width = sleep + "%";
 }
 
+function showDeathscreen(state) {
+  document.querySelector("#death-screen").style.display = state == "true" ? "block" : "none";
+}
+
+function refreshRadiation(value) {
+  if(value > 0) {
+    document.querySelector("#radiation-container").style.display = "block";
+    document.querySelector(".character-radiation-progress").style.width = value + "%";
+  } else {
+    document.querySelector("#radiation-container").style.display = "none";
+  }
+}
+
+function addProgressBar(id, text, color, duration) {
+  var container = document.getElementById("prograss-bars-container-inner");
+
+  container.innerHTML += '<div id="' + id + '" class="progress-bar-container animated fadeInDown">' +
+      '<div class="progress-bar-progress" style="background-color: ' + color + ' !important;"></div>' +
+      text +
+  '</div>';
+  var progress = document.getElementById(id).firstChild
+  progress.animate([
+      { width: '0%' }, 
+      { width: '100%' }
+  ], { 
+      duration: (duration * 1000) - 1000
+  });;
+
+  setTimeout(() => {
+      progress.style.width = "100%";
+      document.getElementById(id).classList.remove("fadeInDown")
+      document.getElementById(id).classList.add("fadeOutDown")
+      setTimeout(() => {
+          document.getElementById(id).remove()
+      }, 1000)
+  }, (duration * 1000) - 1000)
+}
+
 class Color {
     constructor(r, g, b) {
       this.set(r, g, b);
