@@ -31,6 +31,7 @@ end
 AddEvent("OnPackageStart", OnPackageStart)
 
 AddEvent("OnPlayerSteamAuth", function(player)
+    print("Steam Auth: " .. GetPlayerSteamId(player))
     RegisterPlayerDatabase(player, function(character)
         print("character enter in game id: "..character.id)
         SetPlayerPropertyValue(player, 'characterID', character.id, true)
