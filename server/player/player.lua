@@ -31,6 +31,9 @@ end
 AddEvent("OnPackageStart", OnPackageStart)
 
 AddEvent("OnPlayerSteamAuth", function(player)
+    RegisterPlayerDatabase(player, function(character)
+        print("Steam logged: " .. tostringGetPlayerSteamId(player)))
+    end)
     TrySpawn(player)
 end)
 
@@ -52,40 +55,45 @@ end
 AddEvent("OnPlayerSpawn", OnPlayerSpawn)
 
 function TrySpawn(player)
-    RegisterPlayerDatabase(player, function(character)
-        print("character enter in game id: "..character.id)
-        SetPlayerPropertyValue(player, 'characterID', character.id, true)
-        --RequestPlayIntroCinematic(player)
-        EquipPlayerCharacterWeapons(player)
-        SetPlayerOutfit(player)
-
-        -- setup drink food sleep
-        SetPlayerPropertyValue(player, '_foodStock', character.food, true)
-        SetPlayerPropertyValue(player, '_drinkStock', character.drink, true)
-        SetPlayerPropertyValue(player, '_sleepStock', character.sleep, true)
-
-        character.in_radiation = false
-        character.radiation_value = 0
-        character.radiation_zone = nil
-        SetPlayerPropertyValue(player, '_radiationStock', character.radiation_value, true)
-        
-        LoadStoragesForCharacter(character, function()
-            if character.is_dead == 1 then
-                AjustFood(player, 100)
-                AjustDrink(player, 100)
-                AjustSleep(player, 100)
-                character.health = 100
-                character.is_dead = 0
-                UpdatePlayerDatabase(player)
-                SetPlayerLocation(player, 45767, 48163, 2265, 90.0)
-                
-                CallRemoteEvent(player, "Survival:GlobalUI:SetDeathScreen", "false")
-            else
-                SetPlayerLocation(player, character.location_x, character.location_y, character.location_z, character.location_h)
-            end
-
-            SetPlayerHealth(player, character.health)
+    local character =  CharactersData[tostring(GetPlayerSteamId(player))]
+    if character == nil then
+        Delay(5000, function()
+            TrySpawn(player)
         end)
+        return
+    end
+    print("character enter in game id: "..character.id)
+    SetPlayerPropertyValue(player, 'characterID', character.id, true)
+    --RequestPlayIntroCinematic(player)
+    EquipPlayerCharacterWeapons(player)
+    SetPlayerOutfit(player)
+
+    -- setup drink food sleep
+    SetPlayerPropertyValue(player, '_foodStock', character.food, true)
+    SetPlayerPropertyValue(player, '_drinkStock', character.drink, true)
+    SetPlayerPropertyValue(player, '_sleepStock', character.sleep, true)
+
+    character.in_radiation = false
+    character.radiation_value = 0
+    character.radiation_zone = nil
+    SetPlayerPropertyValue(player, '_radiationStock', character.radiation_value, true)
+    
+    LoadStoragesForCharacter(character, function()
+        if character.is_dead == 1 then
+            AjustFood(player, 100)
+            AjustDrink(player, 100)
+            AjustSleep(player, 100)
+            character.health = 100
+            character.is_dead = 0
+            UpdatePlayerDatabase(player)
+            SetPlayerLocation(player, 45767, 48163, 2265, 90.0)
+            
+            CallRemoteEvent(player, "Survival:GlobalUI:SetDeathScreen", "false")
+        else
+            SetPlayerLocation(player, character.location_x, character.location_y, character.location_z, character.location_h)
+        end
+
+        SetPlayerHealth(player, character.health)
     end)
 end
 
