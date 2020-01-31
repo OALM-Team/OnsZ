@@ -105,10 +105,21 @@ function OpenLootbox(player, lootboxId)
     local lootbox = Lootboxes[lootboxId]
     SetPlayerAnimation(player, "CHECK_EQUIPMENT")
     CallRemoteEvent(player, "Survival:Inventory:ClientOpenInventoryUI")
-    Delay(500, function()
-        SendStorageConfig(player, lootbox.id)
-    end)
+    
+    --Delay(500, function()
+        --SendStorageConfig(player, lootbox.id)
+    --end)
 end
+
+AddEvent("Survival:Inventory:AfterClientRequestInventoryData", function(player)
+    local px, py, pz = GetPlayerLocation(player)
+    for id,lootbox in pairs(Lootboxes) do
+        local ox, oy, oz = GetObjectLocation(lootbox.gameobject)
+        if GetDistance3D(px, py, pz, ox, oy, oz) < 200 then
+            SendStorageConfig(player, id)
+        end
+    end
+end)
 
 AddCommand("spawnlootbox", function(player, type)
     local character = CharactersData[tostring(GetPlayerSteamId(player))]

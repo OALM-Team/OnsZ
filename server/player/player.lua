@@ -57,7 +57,7 @@ function TrySpawn(player)
     local character =  CharactersData[tostring(GetPlayerSteamId(player))]
     if character == nil then
         RegisterPlayerDatabase(player, function(character)
-            Delay(5000, function()
+            Delay(1000, function()
                 TrySpawn(player)
             end)
         end)
@@ -67,7 +67,6 @@ function TrySpawn(player)
     SetPlayerPropertyValue(player, 'characterID', character.id, true)
     --RequestPlayIntroCinematic(player)
     EquipPlayerCharacterWeapons(player)
-    SetPlayerOutfit(player)
 
     -- setup drink food sleep
     SetPlayerPropertyValue(player, '_foodStock', character.food, true)
@@ -93,7 +92,7 @@ function TrySpawn(player)
         else
             SetPlayerLocation(player, character.location_x, character.location_y, character.location_z, character.location_h)
         end
-
+        SetPlayerOutfit(player)
         SetPlayerHealth(player, character.health)
     end)
 end
@@ -193,7 +192,7 @@ function UpdatePlayerDatabase(player)
 
     local query = mariadb_prepare(sql, "UPDATE `tbl_character` SET location_x='?', location_y='?', location_z='?', location_h='?', clothing_id='?', blood_group='?', weapons='?', outfit='?', food='?', drink='?', sleep='?', health='?', is_dead='?', admin_level='?' WHERE id_character='?';",
         character.location_x, character.location_y, character.location_z, character.location_h, character.clothing_id, character.blood_group,
-        jsonencode(GetPlayerWeaponsList(player)), jsonencode(character.outfit), character.food, character.drink, character.sleep, character.health, character.is_dead, 0, tonumber(character.id))
+        jsonencode(GetPlayerWeaponsList(player)), jsonencode(character.outfit), character.food, character.drink, character.sleep, character.health, character.is_dead, character.admin_level, tonumber(character.id))
     mariadb_query(sql, query, function()
         print("character updated id: ".. character.id)
     end)
@@ -288,6 +287,15 @@ end
 AddEvent("Survival:Inventory:UseItem", RequestUseBasicItem)
 
 AddEvent("OnPlayerChat", function(playerid, text)
-    AddPlayerChatAll("<span color=\"#ffffffFF\">"..GetPlayerName(playerid)..": "..text.."</>")
+    local character = CharactersData[tostring(GetPlayerSteamId(playerid))]
+    if character == nil then
+        return
+    end
+
+    if character.admin_level > 0 then
+        AddPlayerChatAll("<span color=\"#ff0000\">[Admin] "..GetPlayerName(playerid).."</>: "..text.."")
+    else
+        AddPlayerChatAll("<span color=\"#ffae00\">[Survivant] "..GetPlayerName(playerid).."</>: "..text.."")
+    end
 	return false
 end)

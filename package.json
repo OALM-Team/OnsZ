@@ -22,7 +22,8 @@
 		"server/safezone/safezone.lua",
 		"server/outfit/outfit.lua",
 		"server/radiation/radiation.zone.lua",
-		"server/radiation/radiation.lua"
+		"server/radiation/radiation.lua",
+		"server/grounditem/grounditem.lua"
 	],
     "client_scripts": [
 		"client/common/json.lua",
@@ -36,7 +37,8 @@
 		"client/inventory/inventory.config.lua",
 		"client/globalui/globalui.lua",
 		"client/lootboxes/lootboxes.lua",
-		"client/safezone/safezone.lua"
+		"client/safezone/safezone.lua",
+		"client/grounditem/grounditem.lua"
 	],
 	"files": [
 		"client/common/fonts/GeosansLight.ttf",
@@ -87,9 +89,16 @@
 		"client/inventory/ui/icons/blue_tshirt.png",
 		"client/inventory/ui/icons/equipement_tshirt.png",
 		"client/inventory/ui/icons/equipement_pant.png",
+		"client/inventory/ui/icons/equipement_bag.png",
 		"client/inventory/ui/icons/shotgun_1.png",
 		"client/inventory/ui/icons/ammo_12_mm.png",
 		"client/inventory/ui/icons/blood_test.png",
+		"client/inventory/ui/icons/capsule_1.png",
+		"client/inventory/ui/icons/rad_pill.png",
+		"client/inventory/ui/icons/bag_1.png",
+		"client/inventory/ui/icons/bag_2.png",
+		"client/inventory/ui/icons/bag_3.png",
+		"client/inventory/ui/icons/bag_4.png",
 		
 		"client/globalui/notif_1.mp3",
 		"client/globalui/notif_2.mp3",

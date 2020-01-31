@@ -21,11 +21,13 @@ function ClientRequestInventoryData(player)
         CallRemoteEvent(player, "Survival:Inventory:ReceiveInventoryDataConfig", k, jsonencode(configItem))
     end
 
+    RefreshOutfitInventory(player)
+
     for _, storage in pairs(GetStoragesByCharacterId(GetPlayerPropertyValue(player, 'characterID'))) do
         SendStorageConfig(player, storage.id)
     end
 
-    RefreshOutfitInventory(player)
+    CallEvent("Survival:Inventory:AfterClientRequestInventoryData", player)
 end
 AddRemoteEvent("Survival:Inventory:ClientRequestInventoryData", ClientRequestInventoryData)
 
@@ -33,6 +35,14 @@ function RefreshOutfitInventory(player)
     CallRemoteEvent(player, "Survival:Inventory:ResetEquipment")
     for k, outfitItem in pairs(CharactersData[tostring(GetPlayerSteamId(player))].outfit) do
         CallRemoteEvent(player, "Survival:Inventory:ReceiveEquipment", jsonencode(outfitItem))
+    end
+    for _, storage in pairs(GetStoragesByCharacterId(GetPlayerPropertyValue(player, 'characterID'))) do
+        if storage.id_bag ~= "" and storage.id_bag ~= nil then
+            CallRemoteEvent(player, "Survival:Inventory:ReceiveEquipment", jsonencode({
+                type="bag",
+                itemId=storage.id_bag
+            }))
+        end
     end
 end
 
@@ -46,6 +56,15 @@ function GetStoragesByCharacterId(characterId)
     return characterStorages
 end
 
+function GetBagByCharacterId(characterId)
+    for _, storage in pairs(Storages) do
+        if storage.id_character == characterId and storage.id_bag ~= nil and storage.id_bag ~= "" then
+            return storage
+        end
+    end
+    return nil
+end
+
 function ClearStorage(storage)
     storage.items = {}
     UpdateStorage(storage)
@@ -56,6 +75,13 @@ function SendStorageConfig(player, storageId)
     CallRemoteEvent(player, "Survival:Inventory:ReceiveInventoryStorageConfig", storage.id, storage.name, storage.slots)
     for _, item in pairs(storage.items) do
         CallRemoteEvent(player, "Survival:Inventory:ReceiveInventoryItem", storage.id, item.uid, item.itemId, item.slot)
+    end
+
+    if storage.id_bag ~= "" and storage.id_bag ~= nil then
+        CallRemoteEvent(player, "Survival:Inventory:ReceiveEquipment", jsonencode({
+            type="bag",
+            itemId=storage.id_bag
+        }))
     end
 end
 
@@ -89,14 +115,20 @@ function uuid()
     end)
 end
 
-function TryAddItemToCharacter(player, itemId)
+function TryAddItemToCharacter(player, itemId, excludeStorage)
+    if excludeStorage == nil then
+        excludeStorage = -1
+    end
     local characterStoragesList = GetStoragesByCharacterId(GetPlayerPropertyValue(player, 'characterID'))
     for _,storage in pairs(characterStoragesList) do
-        if AddItem(storage.id, itemId, player) ~= nil then
-            return true
+        if storage.id ~= excludeStorage then
+            local item = AddItem(storage.id, itemId, player)
+            if item ~= nil then
+                return true, item
+            end
         end
     end
-    return false
+    return false, nil
 end
 
 function AddItem(storageId, itemId, player)
@@ -144,6 +176,9 @@ function RequestThrowItem(player, storageId, itemId)
     if player ~= nil then
         CallRemoteEvent(player, "Survival:GlobalUI:CreateNotification", "#ffc003", "Au sol", template.name.." est désormais au sol", 5000, 2)
         CallRemoteEvent(player, "Survival:Inventory:RemoveItem", storage.id, itemId)
+
+        local x,y,z = GetPlayerLocation(player)
+        SpawnDropItem(x,y,z,item.itemId,item)
     end
 end
 AddRemoteEvent("Survival:Inventory:ServerRequestThrowItem", RequestThrowItem)
@@ -389,8 +424,9 @@ function LoadStoragesForCharacter(character, callback)
 				id = tostring(mariadb_get_value_index_int(i, 1)),
                 name = mariadb_get_value_index(i, 2),
                 id_character = mariadb_get_value_index_int(i, 3),
-                slots = mariadb_get_value_index_int(i, 4),
-                items = jsondecode(mariadb_get_value_index(i, 5)),
+                id_bag = mariadb_get_value_index(i, 4),
+                slots = mariadb_get_value_index_int(i, 5),
+                items = jsondecode(mariadb_get_value_index(i, 6)),
                 type = "character"
             }
             Storages[storage.id] = storage
@@ -445,6 +481,11 @@ function RemoveOutfitPlayerByType(player, outfitType)
 end
 
 function ServerRequestUnequipOutfit(player, outfitType)
+    if outfitType == "bag" then
+        RequestUnequipBag(player)
+        return
+    end
+
     local outfitItem = GetOutfitPlayerByType(player, outfitType)
     if outfitItem == nil then
         return
@@ -458,3 +499,71 @@ function ServerRequestUnequipOutfit(player, outfitType)
     end
 end
 AddRemoteEvent("Survival:Inventory:ServerRequestUnequipOutfit", ServerRequestUnequipOutfit)
+
+function RequestUnequipBag(player)
+    local character = CharactersData[tostring(GetPlayerSteamId(player))]
+    local bag = GetBagByCharacterId(character.id)
+    if TryAddItemToCharacter(player, bag.id_bag, bag.id) then
+        local x,y,z = GetPlayerLocation(player)
+        for _,itemBag in pairs(bag.items) do
+            SpawnDropItem(x,y,z,itemBag.itemId,itemBag)
+        end
+        DeleteStorageForCharacter(character, bag.id, function()
+            Storages[bag.id] = nil
+            CallRemoteEvent(player, "Survival:Inventory:ClientCloseInventoryUI")
+            SetPlayerOutfit(player)
+        end)
+    end
+end
+
+function RequestUseBagItem(player, storage, template, uid, itemId)
+    if not template.is_bag then
+        return
+    end
+    local character = CharactersData[tostring(GetPlayerSteamId(player))]
+    if GetBagByCharacterId(character.id) == nil then
+        InsertStorageForCharacter(character, template.name, itemId, template.slots, function(newStorage)
+            RemoveItem(player, storage.id, uid)
+            SendStorageConfig(player, newStorage.id)
+            SetPlayerOutfit(player)
+        end)
+    else 
+        CallRemoteEvent(player, "Survival:GlobalUI:CreateNotification", "#ff0051", "Impossible", "Vous avez déjà un sac sur vous", 10000, 2)
+    end
+end
+AddEvent("Survival:Inventory:UseItem", RequestUseBagItem)
+
+function InsertStorageForCharacter(character, name, id_bag, slots, callback)
+    local query = mariadb_prepare(sql, "INSERT INTO `tbl_storage` (`name`, `id_character`, `id_bag`, `slots`, `data`)" ..
+        "VALUES ('?', '?', '?', '?', '?');", name, character.id, id_bag, slots, "[]")
+    mariadb_query(sql, query, function()
+        local id = mariadb_get_insert_id()
+        local characterStorage = {
+            id = tostring(id),
+            name = name,
+            id_character = character.id,
+            id_bag = id_bag,
+            slots = slots,
+            items = {},
+            type = "character"
+        }
+        Storages[characterStorage.id] = characterStorage
+        print("new bag storage character id: " .. id)
+        callback(characterStorage)
+    end)
+end
+
+function DeleteStorageForCharacter(character, id, callback)
+    local query = mariadb_prepare(sql, "DELETE FROM `tbl_storage` WHERE id_character='?' AND id_storage='?'",
+        character.id, tonumber(id))
+    mariadb_query(sql, query, function()
+        print("delete bag storage character id: " .. id)
+        callback()
+    end)
+end
+
+function SaveCharacterStorages(character)
+    for _,storage in pairs(GetStoragesByCharacterId(character.id)) do
+        UpdateStorage(storage)
+    end
+end

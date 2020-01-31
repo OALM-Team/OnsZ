@@ -1,3 +1,5 @@
+PlayersBagOutfit = {}
+
 function RequestUseOutfit(player, storage, template, uid, itemId)
     if not template.is_outfit then
         return
@@ -37,4 +39,22 @@ function SetPlayerOutfit(player)
     for _,p in pairs(GetAllPlayers()) do
         CallRemoteEvent(p, "Survival:Player:RefreshPlayerOutfit", player)
     end
+
+    if PlayersBagOutfit[character.id] ~= nil then
+        DestroyObject(PlayersBagOutfit[character.id])
+        PlayersBagOutfit[character.id] = nil
+    end
+    local bagStorage = GetBagByCharacterId(character.id)
+    if bagStorage ~= nil then
+        local bagTemplate = InventoryItems[bagStorage.id_bag]
+        local bagGameobject = CreateObject(bagTemplate.modelId, 0, 0, 0)
+        PlayersBagOutfit[character.id] = bagGameobject
+        SetObjectAttached(bagGameobject, ATTACH_PLAYER, player, bagTemplate.x, bagTemplate.y, bagTemplate.z, bagTemplate.rx, bagTemplate.ry, bagTemplate.rz, "spine_01")
+    end
+    -- Attach the bag
+    --local bagGameobject = CreateObject(bag.template.modelId, 0, 0, 0)
+    --bag.attachedObject = bagGameobject
+    --print("attached: "..bag.attachedObject)
+    --SetObjectAttached(bagGameobject, ATTACH_PLAYER, player, 
+    --    bag.template.x, bag.template.y, bag.template.z, bag.template.rx, bag.template.ry, bag.template.rz, "spine_01")
 end

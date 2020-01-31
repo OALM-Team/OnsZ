@@ -63,3 +63,20 @@ function IncreaseRadiationValue()
         end
     end
 end
+
+function RequestUseRadPillItem(player, storage, template, uid, itemId)
+    if itemId ~= "rad_pill" then
+        return
+    end
+    local character = CharactersData[tostring(GetPlayerSteamId(player))]
+    if character.radiation_value > 0 then
+        character.radiation_value = character.radiation_value - 30
+        if character.radiation_value < 0 then
+            character.radiation_value = 0
+        end
+        SetPlayerPropertyValue(player, '_radiationStock', character.radiation_value, true)
+        RemoveItem(player, storage.id, uid)
+    end
+    
+end
+AddEvent("Survival:Inventory:UseItem", RequestUseRadPillItem)

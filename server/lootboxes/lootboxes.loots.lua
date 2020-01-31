@@ -31,6 +31,12 @@ LootboxesLootsType["zombie_1"] = {
             itemId = "blue_tshirt",
             slot = 0
         }
+    },
+    {
+        {
+            itemId = "rad_pill",
+            slot = 0
+        }
     }
 }
 
@@ -110,6 +116,12 @@ LootboxesLootsType["basic"] = {
     {
         {
             itemId = "sandwish",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "rad_pill",
             slot = 0
         }
     },

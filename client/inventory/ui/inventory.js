@@ -34,6 +34,10 @@ function drawInventorySpace(id, name, space) {
         '</div>' +
     '</div>';
     inventoryList.append(div)
+    div.style.width = "475px";
+    div.style.marginRight = "10px";
+    div.style.display = "inline-block";
+    div.style.verticalAlign = "top";
 
     // Create storage
     items[id] = []
@@ -219,19 +223,46 @@ function addItem(inventoryId, uid, slot, item, redraw = false) {
         })
     }
 
+    var prevEle = document.createElement("div")
+    prevEle.classList.add("item-object")
+    container.append(prevEle);
+    prevEle.style.position = "absolute";
+    prevEle.style.height = size.h + "px";
+    prevEle.style.width = size.w + "px";
+    prevEle.style.top = relativePos.y + "px";
+    prevEle.style.left = relativePos.x + "px";
+    prevEle.style.background = "green";
+    prevEle.style.opacity = "0.1s";
+    prevEle.style.display = "none";
+
     $(ele).draggable({
         cursor: 'move',
         ghost: false,
         helper: "",
         opacity: "0.8",
         start: (event, ui) => {
+            prevEle.style.display = "block";
             ele.style.transition = "0s";
             ele.style.pointerEvents = "none";
         },
+        drag: (event, ui) => {
+            var offset = $(ele).offset();
+            var baseSquareSize = document.getElementsByClassName("inventory-content-square")[0].clientWidth + 2;
+            var xPos = offset.left + (size.w / 2);
+            var yPos = offset.top + (size.h / 2);
+            for(var s of document.querySelectorAll("#inventory-" + inventoryId + "-content-slots .inventory-content-square")) {
+                var square = $(s).offset();
+                if(xPos > square.left && xPos < square.left + baseSquareSize && yPos > square.top && yPos < square.top + baseSquareSize) {
+                    var slotId = $(s).data("slot");
+                    var relativePrevPos = getSlotPosition(inventoryId, slotId);
+                    prevEle.style.top = relativePrevPos.y + "px";
+                    prevEle.style.left = relativePrevPos.x + "px";
+                }
+            }
+            
+        },
         stop: (event, ui) => {
-            //clone = $(ele).clone().get()
-            //ele.remove();
-            //ele = clone;
+            prevEle.style.display = "none";
             ele.style.transition = "0.3s";
             ele.style.pointerEvents = "all";
         },
@@ -267,7 +298,7 @@ function moveItem(item, toInventory, toSlot) {
         item.ele.remove()
         targetContainer.append(item.ele)
         items[item.inventoryId].splice(items[item.inventoryId].indexOf(item), 1)
-        CallEvent("Survival:Inventory:RequestChangeInventorySlotItem", item.inventoryId, toInventory, item.uid, toSlot)
+        if(CallEvent != null) CallEvent("Survival:Inventory:RequestChangeInventorySlotItem", item.inventoryId, toInventory, item.uid, toSlot)
         item.inventoryId = toInventory;
         item.ele.dataset.inventoryId = toInventory;
         items[item.inventoryId].push(item)

@@ -22,8 +22,8 @@
 
     <div style="margin-top: 20px;">
         <!-- Main inventory -->
-        <div class="animated bounceIn" style="width: 475px; margin-right: auto; margin-left: auto; animation-duration: 0.7s;">
-            <div id="equipment-storage-list">
+        <div class="animated bounceIn" style="max-width: 60%;margin-left: auto; margin-right: auto;">
+            <div id="equipment-storage-list" style="width: 475px; margin-left: auto;margin-right: auto;">
                 <div class="window-header">
                     Equipement
                 </div>
@@ -41,11 +41,17 @@
                                 <img src="./icons/equipement_tshirt.png" style="position: absolute; width: 40px; height: 40px;" />
                             </div>
                         </div>
+                        <div class="inventory-content-square" data-equip-type="bag">
+                            <img src="./icons/equipement_bag.png" style="position: absolute; width: 48px; height: 40px; opacity: 0.1; top: 7px; left: 4px;" />
+                            <div class="equipment-container" style="position: absolute; top: 7px; left: 8px; display: none;">
+                                <img src="./icons/equipement_bag.png" style="position: absolute; width: 40px; height: 40px;" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div id="inventory-storage-list">
+            <div id="inventory-storage-list" style="text-align: center;">
 
             </div>
         </div>
