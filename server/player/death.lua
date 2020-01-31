@@ -1,10 +1,17 @@
 AddEvent("OnPlayerDeath", function(player)
     SetPlayerRespawnTime(player, 60000 * 1)
 
+    CallRemoteEvent(player, "Survival:Player:FreezePlayer")
+    CallRemoteEvent(player, "Survival:GlobalUI:AddProgressBar", "respawn", "Réapparition", "#ba0000", 60)
+
     local character = CharactersData[tostring(GetPlayerSteamId(player))]
     character.is_dead = 1
     character.health = 0
+    character.weapons = {}
+    character.outfit = {}
+    RequestUnequipBag(player)
     UpdatePlayerDatabase(player)
+    SetPlayerOutfit(player)
     
     -- reset radiation
     character.in_radiation = false

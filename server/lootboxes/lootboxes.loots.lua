@@ -37,6 +37,28 @@ LootboxesLootsType["zombie_1"] = {
             itemId = "rad_pill",
             slot = 0
         }
+    },
+    {
+        {
+            itemId = "bag_1",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "capsule_1",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "capsule_1",
+            slot = 0
+        },
+        {
+            itemId = "capsule_1",
+            slot = 1
+        }
     }
 }
 
@@ -91,6 +113,22 @@ LootboxesLootsType["weapon_1"] = {
             slot = 0
         }
     },
+    {
+        {
+            itemId = "ump",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "ammo_9_mm",
+            slot = 0
+        },
+        {
+            itemId = "ammo_9_mm",
+            slot = 2
+        }
+    },
 }
 
 LootboxesLootsType["basic"] = {
@@ -125,6 +163,16 @@ LootboxesLootsType["basic"] = {
             slot = 0
         }
     },
+    {
+        {
+            itemId = "rad_pill",
+            slot = 0
+        },
+        {
+            itemId = "rad_pill",
+            slot = 2
+        }
+    },
     -- loot 4
     {
         {
@@ -152,11 +200,23 @@ LootboxesLootsType["basic"] = {
             itemId = "apple",
             slot = 0
         }
+    },
+    {
+        {
+            itemId = "bag_1",
+            slot = 0
+        }
     }
 }
 
 LootboxesLootsType["medical_1"] = {
     -- loot 1
+    {
+        {
+            itemId = "rad_pill",
+            slot = 0
+        }
+    },
     {
         {
             itemId = "blood_test",

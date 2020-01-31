@@ -193,11 +193,11 @@ InventoryItems["ammo_9_mm"] = {
     is_ammo=true,
     pickup_model=23,
     pickup_scale=1,
-    ammo_weapons={4},
+    ammo_weapons={4,10},
     ammo_size=14,
     name="Cartouche .9mm",
     dimensions={w=2,h=1},
-    desc="Cartouche pour Glock"
+    desc="Cartouche pour Glock, UMP"
 }
 InventoryItems["shotgun_1"] = {
     is_weapon=true,
@@ -218,6 +218,15 @@ InventoryItems["ammo_12_mm"] = {
     name="Cartouche .12mm",
     dimensions={w=2,h=1},
     desc="Cartouche pour Fusil a pompe"
+}
+InventoryItems["ump"] = {
+    is_weapon=true,
+    id_weapon=10,
+    pickup_model=12,
+    pickup_scale=1,
+    name="UMP",
+    dimensions={w=6,h=3},
+    desc="Utilise des balles de .9mm"
 }
 
 --------- OUTFITS ----------

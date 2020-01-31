@@ -65,7 +65,7 @@ function TrySpawn(player)
     end
     print("character enter in game id: "..character.id)
     SetPlayerPropertyValue(player, 'characterID', character.id, true)
-    --RequestPlayIntroCinematic(player)
+    CallRemoteEvent(player, "Survival:Player:UnFreezePlayer")
     EquipPlayerCharacterWeapons(player)
 
     -- setup drink food sleep
@@ -87,7 +87,7 @@ function TrySpawn(player)
             character.is_dead = 0
             UpdatePlayerDatabase(player)
             SetPlayerLocation(player, 45767, 48163, 2265, 90.0)
-            
+            RequestPlayIntroCinematic(player)
             CallRemoteEvent(player, "Survival:GlobalUI:SetDeathScreen", "false")
         else
             SetPlayerLocation(player, character.location_x, character.location_y, character.location_z, character.location_h)
@@ -146,12 +146,17 @@ function LoadPlayerFromDatabase(player, callback)
                 clothing_id = 19,
                 blood_group = BloodGroups[math.random(1, tablelength(BloodGroups))],
                 weapons={},
-                outfit={},
+                outfit={
+                    {
+                        type="pant",
+                        itemId="green_pant"
+                    }
+                },
                 food=100,
                 drink=100,
                 sleep=100,
                 health=100,
-                is_dead=0,
+                is_dead=1,
                 admin_level=0,
                 in_radiation = false,
                 radiation_value = 0,

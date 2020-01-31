@@ -23,7 +23,9 @@
 		"server/outfit/outfit.lua",
 		"server/radiation/radiation.zone.lua",
 		"server/radiation/radiation.lua",
-		"server/grounditem/grounditem.lua"
+		"server/grounditem/grounditem.lua",
+		"server/noclip/noclip.lua",
+		"server/vehicle/vehicle.lua"
 	],
     "client_scripts": [
 		"client/common/json.lua",
@@ -38,7 +40,8 @@
 		"client/globalui/globalui.lua",
 		"client/lootboxes/lootboxes.lua",
 		"client/safezone/safezone.lua",
-		"client/grounditem/grounditem.lua"
+		"client/grounditem/grounditem.lua",
+		"client/noclip/cl_noclip.lua"
 	],
 	"files": [
 		"client/common/fonts/GeosansLight.ttf",
@@ -99,6 +102,7 @@
 		"client/inventory/ui/icons/bag_2.png",
 		"client/inventory/ui/icons/bag_3.png",
 		"client/inventory/ui/icons/bag_4.png",
+		"client/inventory/ui/icons/ump.png",
 		
 		"client/globalui/notif_1.mp3",
 		"client/globalui/notif_2.mp3",
