@@ -1,5 +1,5 @@
 CharactersData = {}
-FoodDrinkSleepRatio = 1
+FoodDrinkSleepRatio = 2
 
 function OnPackageStart()
     CreateTimer(function()
@@ -298,9 +298,9 @@ AddEvent("OnPlayerChat", function(playerid, text)
     end
 
     if character.admin_level > 0 then
-        AddPlayerChatAll("<span color=\"#ff0000\">[Admin] "..GetPlayerName(playerid).."</>: "..text.."")
+        AddPlayerChatAll("<span color=\"#ff0000\">[Admin] "..GetPlayerName(playerid).."("..playerid..")</>: "..text.."")
     else
-        AddPlayerChatAll("<span color=\"#ffae00\">[Survivant] "..GetPlayerName(playerid).."</>: "..text.."")
+        AddPlayerChatAll("<span color=\"#ffae00\">[Survivant] "..GetPlayerName(playerid).."("..playerid..")</>: "..text.."")
     end
 	return false
 end)

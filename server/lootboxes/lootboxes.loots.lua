@@ -1,7 +1,34 @@
 LootboxesLootsType = {}
 
 LootboxesLootsType["zombie_1"] = {
-    -- loot 1
+    {
+        {
+            itemId = "bandage",
+            slot = 0
+        },
+        {
+            itemId = "bandage",
+            slot = 2
+        }
+    },
+    {
+        {
+            itemId = "bandage",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "white_tshirt",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "gray_pant",
+            slot = 0
+        }
+    },
     {
         {
             itemId = "apple",
@@ -63,6 +90,24 @@ LootboxesLootsType["zombie_1"] = {
 }
 
 LootboxesLootsType["weapon_1"] = {
+    {
+        {
+            itemId = "mask_1",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "mask_2",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "mask_biohazard",
+            slot = 0
+        }
+    },
     -- loot 1
     {
         {
@@ -206,11 +251,44 @@ LootboxesLootsType["basic"] = {
             itemId = "bag_1",
             slot = 0
         }
+    },
+    {
+        {
+            itemId = "bag_2",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "bag_3",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "bag_4",
+            slot = 0
+        }
     }
 }
 
 LootboxesLootsType["medical_1"] = {
-    -- loot 1
+    {
+        {
+            itemId = "bandage",
+            slot = 0
+        },
+        {
+            itemId = "bandage",
+            slot = 2
+        }
+    },
+    {
+        {
+            itemId = "bandage",
+            slot = 0
+        }
+    },
     {
         {
             itemId = "rad_pill",

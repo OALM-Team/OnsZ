@@ -500,20 +500,31 @@ function ServerRequestUnequipOutfit(player, outfitType)
 end
 AddRemoteEvent("Survival:Inventory:ServerRequestUnequipOutfit", ServerRequestUnequipOutfit)
 
-function RequestUnequipBag(player)
+function RequestUnequipBag(player, drop)
+    if drop == nil then
+        drop = false
+    end
     local character = CharactersData[tostring(GetPlayerSteamId(player))]
     local bag = GetBagByCharacterId(character.id)
-    if TryAddItemToCharacter(player, bag.id_bag, bag.id) then
-        local x,y,z = GetPlayerLocation(player)
-        for _,itemBag in pairs(bag.items) do
-            SpawnDropItem(x,y,z,itemBag.itemId,itemBag)
-        end
-        DeleteStorageForCharacter(character, bag.id, function()
-            Storages[bag.id] = nil
-            CallRemoteEvent(player, "Survival:Inventory:ClientCloseInventoryUI")
-            SetPlayerOutfit(player)
-        end)
+    if bag == nil then
+        return
     end
+    local x,y,z = GetPlayerLocation(player)
+    for _,itemBag in pairs(bag.items) do
+        SpawnDropItem(x,y,z,itemBag.itemId,itemBag)
+    end
+    DeleteStorageForCharacter(character, bag.id, function()
+        if not drop then
+            if not TryAddItemToCharacter(player, bag.id_bag, bag.id) then
+                SpawnDropItem(x,y,z,bag.id_bag,nil)
+            end
+        else
+            SpawnDropItem(x,y,z,bag.id_bag,nil)
+        end
+        Storages[bag.id] = nil
+        CallRemoteEvent(player, "Survival:Inventory:ClientCloseInventoryUI")
+        SetPlayerOutfit(player)
+    end)
 end
 
 function RequestUseBagItem(player, storage, template, uid, itemId)

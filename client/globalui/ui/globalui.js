@@ -85,6 +85,22 @@ function addProgressBar(id, text, color, duration) {
   }, (duration * 1000) - 1000)
 }
 
+function addAnnounce(playerName, content) {
+  var div = document.createElement("div")
+  div.classList.add("announce-item")
+  div.innerHTML = '<h3>Annonce par ' + playerName + '</h3>'+
+    '<div class="announce-item-content">'+
+      content +
+    '</div>';
+  document.getElementById("announce-container-container-inner").append(div);
+  div.classList.add("animated")
+  div.classList.add("bounceInDown")
+
+  setTimeout(function() {
+    div.remove();
+  }, 15000)
+}
+
 class Color {
     constructor(r, g, b) {
       this.set(r, g, b);

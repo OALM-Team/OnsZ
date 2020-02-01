@@ -247,6 +247,36 @@
     }
 }
 
+#announce-container {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    right: 0;
+}
+
+.announce-item {
+    padding: 10px;
+    width: 30%;
+    background-color: #000000a1;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 20px;
+    margin-bottom: 15px;
+}
+
+.announce-item h3 {
+    font-family: 'GeosansLight';
+    color: rgb(41, 219, 41);
+    margin: 0;
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.announce-item .announce-item-content {
+    color: white;
+    font-size: 13px;
+}
+
 #prograss-bars-container {
     position: fixed;
     top: 15px;

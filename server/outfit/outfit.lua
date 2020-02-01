@@ -1,4 +1,5 @@
 PlayersBagOutfit = {}
+PlayersMaskOutfit = {}
 
 function RequestUseOutfit(player, storage, template, uid, itemId)
     if not template.is_outfit then
@@ -28,12 +29,15 @@ function SetPlayerOutfit(player)
     local character = CharactersData[tostring(GetPlayerSteamId(player))]
     SetPlayerPropertyValue(player, "_outfitPantId", nil, true)
     SetPlayerPropertyValue(player, "_outfitTopId", nil, true)
+    SetPlayerPropertyValue(player, "_outfitMaskId", nil, true)
 
     for _,outfit in pairs(character.outfit) do
         if outfit.type == "pant" then
             SetPlayerPropertyValue(player, "_outfitPantId", outfit.itemId, true)
         elseif outfit.type == "top" then
             SetPlayerPropertyValue(player, "_outfitTopId", outfit.itemId, true)
+        elseif outfit.type == "mask" then
+            SetPlayerPropertyValue(player, "_outfitMaskId", outfit.itemId, true)
         end
     end
     for _,p in pairs(GetAllPlayers()) do
@@ -51,10 +55,18 @@ function SetPlayerOutfit(player)
         PlayersBagOutfit[character.id] = bagGameobject
         SetObjectAttached(bagGameobject, ATTACH_PLAYER, player, bagTemplate.x, bagTemplate.y, bagTemplate.z, bagTemplate.rx, bagTemplate.ry, bagTemplate.rz, "spine_01")
     end
-    -- Attach the bag
-    --local bagGameobject = CreateObject(bag.template.modelId, 0, 0, 0)
-    --bag.attachedObject = bagGameobject
-    --print("attached: "..bag.attachedObject)
-    --SetObjectAttached(bagGameobject, ATTACH_PLAYER, player, 
-    --    bag.template.x, bag.template.y, bag.template.z, bag.template.rx, bag.template.ry, bag.template.rz, "spine_01")
+
+    -- Set mask on head
+    if PlayersMaskOutfit[character.id] ~= nil then
+        DestroyObject(PlayersMaskOutfit[character.id])
+        PlayersMaskOutfit[character.id] = nil
+    end
+    for _,outfit in pairs(character.outfit) do
+        if outfit.type == "mask" then
+            local maskTemplate = InventoryItems[outfit.itemId]
+            local maskGameobject = CreateObject(maskTemplate.modelId, 0, 0, 0)
+            PlayersMaskOutfit[character.id] = maskGameobject
+            SetObjectAttached(maskGameobject, ATTACH_PLAYER, player, maskTemplate.x, maskTemplate.y, maskTemplate.z, maskTemplate.rx, maskTemplate.ry, maskTemplate.rz, maskTemplate.attach_type)
+        end
+    end
 end

@@ -69,3 +69,13 @@ function AddProgressBar(id, text, color, duration)
     ExecuteWebJS(GlobalUI, "addProgressBar('"..id.."', '"..text.."', '"..color.."', "..duration..")")
 end
 AddRemoteEvent("Survival:GlobalUI:AddProgressBar", AddProgressBar)
+
+function AddAnnounce(playerName, content)
+    if GlobalUI == nil then
+        return
+    end
+
+    SetSoundVolume(CreateSound("client/globalui/notif_1.mp3"), 0.1)
+    ExecuteWebJS(GlobalUI, "addAnnounce(\""..playerName.."\", \""..content.."\")")
+end
+AddRemoteEvent("Survival:GlobalUI:AddAnnounce", AddAnnounce)

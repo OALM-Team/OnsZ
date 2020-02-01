@@ -66,6 +66,15 @@ InventoryItems["rad_pill"] = {
     pickup_scale=1,
     desc="Permet de réduire votre taux de radiation"
 }
+InventoryItems["bandage"] = {
+    name="Bandage",
+    dimensions={w=2,h=2},
+    pickup_model=1018,
+    pickup_scale=0.2,
+    desc="En cas de blessure"
+}
+
+-------------- BAGS ---------------
 InventoryItems["bag_1"] = {
     name="Petit sac",
     pickup_model=1281,
@@ -75,6 +84,36 @@ InventoryItems["bag_1"] = {
     dimensions={w=3,h=3},
     desc="Permet de stocker plus d'objets sur vous (40 places)",
     modelId=1281, x=-2, y=-20, z=0 , rx=-180, ry=80, rz=-90
+}
+InventoryItems["bag_2"] = {
+    name="Sac classique",
+    pickup_model=823,
+    pickup_scale=1,
+    is_bag=true,
+    slots=50,
+    dimensions={w=3,h=3},
+    desc="Permet de stocker plus d'objets sur vous (50 places)",
+    modelId=823, x=-2, y=-20, z=0 , rx=-90, ry=90, rz=-98
+}
+InventoryItems["bag_3"] = {
+    name="Grand sac",
+    pickup_model=821,
+    pickup_scale=1,
+    is_bag=true,
+    slots=60,
+    dimensions={w=3,h=3},
+    desc="Permet de stocker plus d'objets sur vous (60 places)",
+    modelId=821, x=-2, y=-25, z=0 , rx=-180, ry=90, rz=-90
+}
+InventoryItems["bag_4"] = {
+    name="Gigantesque sac",
+    pickup_model=820,
+    pickup_scale=1,
+    is_bag=true,
+    slots=70,
+    dimensions={w=3,h=3},
+    desc="Permet de stocker plus d'objets sur vous (70 places)",
+    modelId=820, x=-2, y=-20, z=0 , rx=-90, ry=90, rz=-98
 }
 
 -------------- BLOOD ---------------
@@ -257,4 +296,48 @@ InventoryItems["blue_tshirt"] = {
     desc="Un tshirt bleu",
     outfit_type="top",
     is_outfit=true
+}
+InventoryItems["white_tshirt"] = {
+    name="Tshirt Blanc",
+    dimensions={w=3,h=3},
+    desc="Un tshirt blanc",
+    outfit_type="top",
+    is_outfit=true
+}
+InventoryItems["gray_pant"] = {
+    name="Pantalon Gris",
+    dimensions={w=2,h=4},
+    desc="Un pantalon gris",
+    outfit_type="pant",
+    is_outfit=true
+}
+InventoryItems["mask_1"] = {
+    name="Masque de lapin",
+    pickup_model=1451,
+    pickup_scale=1,
+    is_outfit=true,
+    outfit_type="mask",
+    dimensions={w=2,h=2},
+    desc="Faite attention à pas vous faire tirer comme un lapin",
+    modelId=1451, x=-3.78, y=12, z=0, rx=0, ry=90, rz=-90, attach_type="head"
+}
+InventoryItems["mask_2"] = {
+    name="Masque horreur",
+    pickup_model=1452,
+    pickup_scale=1,
+    is_outfit=true,
+    outfit_type="mask",
+    dimensions={w=2,h=2},
+    desc="Vous allez faire fuir des personnes avec ce masque",
+    modelId=1452, x=-3.70,y=-4,z=4.30,rx=0,ry=90,rz=-90,attach_type="head"
+}
+InventoryItems["mask_biohazard"] = {
+    name="Masque a gaz",
+    pickup_model=838,
+    pickup_scale=1,
+    is_outfit=true,
+    outfit_type="mask",
+    dimensions={w=2,h=2},
+    desc="Permet de survivre aux radiations",
+    modelId=838, x=4,y=5,z=0,rx=-90,ry=90,rz=-90,attach_type="head"
 }

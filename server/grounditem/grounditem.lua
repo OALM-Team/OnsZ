@@ -13,10 +13,15 @@ function SpawnDropItem(x,y,z, itemId, itemObj)
     local pickupModel = 509
     local pickupScale = 0.5
 
-    if itemObj == nil then
+    if itemObj ~= nil then
         itemObj ={
             uid =  uuid(),
             itemId = itemObj.itemId
+        }
+    else
+        itemObj = {
+            uid = uuid(),
+            itemId = itemId
         }
     end
 

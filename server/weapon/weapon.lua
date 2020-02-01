@@ -13,6 +13,10 @@ function RequestUseWeaponItem(player, storage, template, uid, itemId)
     end
     SetPlayerWeapon(player, template.id_weapon, 0, true, availableSlot)
     RemoveItem(player, storage.id, uid)
+    
+    local character = CharactersData[tostring(GetPlayerSteamId(player))]
+    character.weapons = GetPlayerWeaponsList(player)
+
     UpdatePlayerDatabase(player)
     CallRemoteEvent(player, "Survival:GlobalUI:CreateNotification", "#05ed4e", "Arme équipée", template.name.." est désormais équipé sur vous", 2500, 1)
 end
@@ -64,12 +68,14 @@ function GetPlayerWeaponsList(player)
     return list
 end
 
-function RequestLoadAmmo(player, storage, template, uid)
+function RequestLoadAmmo(player, storage, template, uid, weaponSlot)
     local weaponToReloadSlot = nil
     for _,possibleWeapon in pairs(template.ammo_weapons) do
         if FindWeaponInHands(player, possibleWeapon) ~= -1 then
-            weaponToReloadSlot = FindWeaponInHands(player, possibleWeapon)
-            break
+            if FindWeaponInHands(player, possibleWeapon) == weaponSlot then
+                weaponToReloadSlot = FindWeaponInHands(player, possibleWeapon)
+                break
+            end
         end
     end
     if weaponToReloadSlot == nil then
@@ -107,8 +113,14 @@ function StoreCurrentWeapon(player)
 
     if TryAddItemToCharacter(player, templateId) then
         SetPlayerWeapon(player, 1, 1, true, GetPlayerEquippedWeaponSlot(player), false)
-        UpdatePlayerDatabase(player)
+    else
+        local x,y,z = GetPlayerLocation(player)
+        SpawnDropItem(x,y,z, templateId)
+        SetPlayerWeapon(player, 1, 1, true, GetPlayerEquippedWeaponSlot(player), false)
     end
+    local character = CharactersData[tostring(GetPlayerSteamId(player))]
+    character.weapons = GetPlayerWeaponsList(player)
+    UpdatePlayerDatabase(player)
 end
 AddRemoteEvent("Survival:Weapon:StoreCurrentWeapon", StoreCurrentWeapon)
 
@@ -125,3 +137,14 @@ function EquipPlayerCharacterWeapons(player)
         i = i + 1
     end
 end
+
+function ServerRequestUseAmmo(player, slot, inventoryId, uid)
+    local storage = Storages[inventoryId]
+    local item = FindItemInStorage(storage.id, uid)
+    if item == nil then
+        return
+    end
+    local template = InventoryItems[item.itemId]
+    RequestLoadAmmo(player, storage, template, uid, slot)
+end
+AddRemoteEvent("Survival:Inventory:ServerRequestUseAmmo", ServerRequestUseAmmo)

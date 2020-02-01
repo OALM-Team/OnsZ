@@ -25,7 +25,10 @@
 		"server/radiation/radiation.lua",
 		"server/grounditem/grounditem.lua",
 		"server/noclip/noclip.lua",
-		"server/vehicle/vehicle.lua"
+		"server/vehicle/vehicle.lua",
+		"server/life/life.lua",
+		"server/scoreboard/scoreboard.lua",
+		"server/admin/admin.lua"
 	],
     "client_scripts": [
 		"client/common/json.lua",
@@ -93,6 +96,7 @@
 		"client/inventory/ui/icons/equipement_tshirt.png",
 		"client/inventory/ui/icons/equipement_pant.png",
 		"client/inventory/ui/icons/equipement_bag.png",
+		"client/inventory/ui/icons/equipement_mask.png",
 		"client/inventory/ui/icons/shotgun_1.png",
 		"client/inventory/ui/icons/ammo_12_mm.png",
 		"client/inventory/ui/icons/blood_test.png",
@@ -103,6 +107,12 @@
 		"client/inventory/ui/icons/bag_3.png",
 		"client/inventory/ui/icons/bag_4.png",
 		"client/inventory/ui/icons/ump.png",
+		"client/inventory/ui/icons/white_tshirt.png",
+		"client/inventory/ui/icons/gray_pant.png",
+		"client/inventory/ui/icons/bandage.png",
+		"client/inventory/ui/icons/mask_1.png",
+		"client/inventory/ui/icons/mask_2.png",
+		"client/inventory/ui/icons/mask_biohazard.png",
 		
 		"client/globalui/notif_1.mp3",
 		"client/globalui/notif_2.mp3",

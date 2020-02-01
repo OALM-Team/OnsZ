@@ -20,6 +20,16 @@
         <div class="context-menu-item" data-choice="unequip">Déséquiper</div>
     </div>
 
+    <div id="context-menu-item-ammo" class="context-menu">
+        <div class="context-menu-item" data-choice="throw">Jeter</div>
+    </div>
+
+    <div id="context-menu-item-clothe" class="context-menu">
+        <div class="context-menu-item" data-choice="use">Utiliser</div>
+        <div class="context-menu-item" data-choice="tear">Faire des bandages</div>
+        <div class="context-menu-item" data-choice="throw">Jeter</div>
+    </div>
+
     <div style="margin-top: 20px;">
         <!-- Main inventory -->
         <div class="animated bounceIn" style="max-width: 60%;margin-left: auto; margin-right: auto;">
@@ -29,6 +39,12 @@
                 </div>
                 <div class="window-content">
                     <div class="inventory-content">
+                        <div class="inventory-content-square" data-equip-type="mask">
+                            <img src="./icons/equipement_mask.png" style="position: absolute; width: 40px; height: 40px; opacity: 0.1; top: 7px; left: 8px;" />
+                            <div class="equipment-container" style="position: absolute; top: 7px; left: 8px; display: none;">
+                                <img src="./icons/equipement_mask.png" style="position: absolute; width: 40px; height: 40px;" />
+                            </div>
+                        </div>
                         <div class="inventory-content-square" data-equip-type="top">
                             <img src="./icons/equipement_tshirt.png" style="position: absolute; width: 40px; height: 40px; opacity: 0.1; top: 7px; left: 8px;" />
                             <div class="equipment-container" style="position: absolute; top: 7px; left: 8px; display: none;">

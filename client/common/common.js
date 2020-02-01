@@ -18,16 +18,6 @@ $(() => {
         currentMousePos.y = event.pageY;
     });
 
-    $(".context-menu-item").each((e, item) => {
-        $(item).click(() => {
-            if(_callbackContextMenu != null) {
-                _callbackContextMenu($(item).data("choice"))
-                _callbackContextMenu = null;
-                _currentContextMenu.hide();
-                _currentContextMenu = null;
-            }
-        })
-    })
 
     $(document).mouseup(function(e) 
     {
@@ -49,6 +39,19 @@ function showContextMenu(id, attach, callback) {
     $(id).css("top", currentMousePos.y + "px");
     $(id).css("left", currentMousePos.x + "px");
     _callbackContextMenu = callback;
+
+    
+    $(".context-menu-item").each((e, item) => {
+        $(item).off( "click", "**" );
+        $(item).click(() => {
+            if(_callbackContextMenu != null) {
+                _callbackContextMenu($(item).data("choice"))
+                _callbackContextMenu = null;
+                _currentContextMenu.hide();
+                _currentContextMenu = null;
+            }
+        })
+    })
 }
 
 (function (obj) {

@@ -1,6 +1,7 @@
 var configItems = []
 var items = []
 var grid = [];
+var weapons = [];
 
 function initGrid() {
     var i = 0;
@@ -270,17 +271,45 @@ function addItem(inventoryId, uid, slot, item, redraw = false) {
     }); 
 
     $(ele).tooltip({
-        track: true
+        track: false,
     });
 
     $(ele).contextmenu(function() {
-        showContextMenu("#context-menu-item", $(ele), (choice) => {
-            if(choice == "throw") {
-                CallEvent("Survival:Inventory:RequestThrowItem", inventoryId, uid)
-            } else if(choice == "use") {
-                CallEvent("Survival:Inventory:RequestUseItem", inventoryId, uid)
-            }
-        })
+        if(template.is_ammo) {
+            showContextMenu("#context-menu-item-ammo", $(ele), (choice) => {
+                if(choice == "throw") {
+                    CallEvent("Survival:Inventory:RequestThrowItem", inventoryId, uid)
+                } else if(choice == "recharge-ammo-1") {
+                    CallEvent("Survival:Inventory:RequestUseAmmo", 1, inventoryId, uid)
+                } else if(choice == "recharge-ammo-2") {
+                    CallEvent("Survival:Inventory:RequestUseAmmo", 2, inventoryId, uid)
+                }else if(choice == "recharge-ammo-3") {
+                    CallEvent("Survival:Inventory:RequestUseAmmo", 3, inventoryId, uid)
+                }
+            })
+        }
+        else if(template.is_outfit) {
+            showContextMenu("#context-menu-item-clothe", $(ele), (choice) => {
+                if(choice == "throw") {
+                    CallEvent("Survival:Inventory:RequestThrowItem", inventoryId, uid)
+                } 
+                else if(choice == "tear") {
+                    CallEvent("Survival:Inventory:RequestTearItem", inventoryId, uid)
+                }
+                else if(choice == "use") {
+                    CallEvent("Survival:Inventory:RequestUseItem", inventoryId, uid)
+                }
+            })
+        }
+        else {
+            showContextMenu("#context-menu-item", $(ele), (choice) => {
+                if(choice == "throw") {
+                    CallEvent("Survival:Inventory:RequestThrowItem", inventoryId, uid)
+                } else if(choice == "use") {
+                    CallEvent("Survival:Inventory:RequestUseItem", inventoryId, uid)
+                }
+            })
+        }
     });
 
     refreshInventorySpace(inventoryId)
@@ -339,6 +368,26 @@ function receiveEquipment(data) {
             }
         })
     });
+}
+
+function clearWeapon() {
+    weapons = []
+    document.getElementById("context-menu-item-ammo").innerHTML = "";
+    var div = document.createElement("div");
+    div.classList.add("context-menu-item")
+    div.innerText = "Jeter";
+    div.dataset.choice = "throw";
+    document.getElementById("context-menu-item-ammo").append(div)
+}
+
+function addWeapon(slot, weaponName) {
+    weapons.push({slot, weaponName})
+    var div = document.createElement("div");
+    div.classList.add("context-menu-item")
+    div.innerText = "Recharger " + weaponName;
+    div.dataset.choice = "recharge-ammo-"+slot;
+    document.getElementById("context-menu-item-ammo").prepend(div)
+    //document.getElementById("context-menu-item-ammo").innerHTML += '<div class="context-menu-item"></div>';
 }
 
 $(function(){

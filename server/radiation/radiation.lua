@@ -19,11 +19,13 @@ function CheckPlayersInRadiationZone()
             local inZone = false
             for kz,zone in pairs(RadiationZone) do
                 if not inZone then
-                    local dist = GetDistance3D(x, y, z, zone.x, zone.y, zone.z)
-                    if dist < zone.radius then
-                        character.in_radiation = true
-                        character.radiation_zone = kz
-                        inZone = true
+                    if not PlayerHasProtection(p) then
+                        local dist = GetDistance3D(x, y, z, zone.x, zone.y, zone.z)
+                        if dist < zone.radius then
+                            character.in_radiation = true
+                            character.radiation_zone = kz
+                            inZone = true
+                        end
                     end
                 end
             end
@@ -80,3 +82,16 @@ function RequestUseRadPillItem(player, storage, template, uid, itemId)
     
 end
 AddEvent("Survival:Inventory:UseItem", RequestUseRadPillItem)
+
+function PlayerHasProtection(player)
+    local character = CharactersData[tostring(GetPlayerSteamId(player))]
+
+    for _,outfit in pairs(character.outfit) do
+        if outfit.type == "mask" then
+            if outfit.itemId == "mask_biohazard" then
+                return true
+            end
+        end
+    end
+    return false
+end
