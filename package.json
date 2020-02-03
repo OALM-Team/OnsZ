@@ -28,7 +28,9 @@
 		"server/vehicle/vehicle.lua",
 		"server/life/life.lua",
 		"server/scoreboard/scoreboard.lua",
-		"server/admin/admin.lua"
+		"server/admin/admin.lua",
+		"server/trader/trader.config.lua",
+		"server/trader/trader.lua"
 	],
     "client_scripts": [
 		"client/common/json.lua",
@@ -44,7 +46,8 @@
 		"client/lootboxes/lootboxes.lua",
 		"client/safezone/safezone.lua",
 		"client/grounditem/grounditem.lua",
-		"client/noclip/cl_noclip.lua"
+		"client/noclip/cl_noclip.lua",
+		"client/trader/trader.lua"
 	],
 	"files": [
 		"client/common/fonts/GeosansLight.ttf",
@@ -113,6 +116,13 @@
 		"client/inventory/ui/icons/mask_1.png",
 		"client/inventory/ui/icons/mask_2.png",
 		"client/inventory/ui/icons/mask_biohazard.png",
+		"client/inventory/ui/icons/blue_pull.png",
+		"client/inventory/ui/icons/red_pull.png",
+		"client/inventory/ui/icons/black_pull.png",
+		"client/inventory/ui/icons/black_pant.png",
+		
+		"client/player/decals/onsz.png",
+		"client/player/decals/nuclear.png",
 		
 		"client/globalui/notif_1.mp3",
 		"client/globalui/notif_2.mp3",
@@ -125,6 +135,10 @@
 		
 		"client/lootboxes/open_box_1.mp3",
 
-		"client/safezone/sounds/music_1.mp3"
+		"client/safezone/sounds/music_1.mp3",
+		
+		"client/trader/ui/trader.html",
+		"client/trader/ui/trader.js",
+		"client/trader/ui/trader.css"
 	]
 }

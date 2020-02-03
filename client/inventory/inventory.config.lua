@@ -205,6 +205,7 @@ InventoryItems["deagle"] = {
     pickup_scale=1,
     name="Desert Eagle",
     dimensions={w=4,h=3},
+    ammo="ammo_50_ae",
     desc="Utilise des balles de .50 Action Express"
 }
 InventoryItems["ammo_50_ae"] = {
@@ -224,6 +225,7 @@ InventoryItems["glock"] = {
     pickup_model=6,
     pickup_scale=1,
     name="Glock",
+    ammo="ammo_9_mm",
     dimensions={w=4,h=3},
     desc="Utilise des balles de .9mm"
 }
@@ -244,6 +246,7 @@ InventoryItems["shotgun_1"] = {
     pickup_model=8,
     pickup_scale=1,
     name="Fusil a pompe",
+    ammo="ammo_12_mm",
     dimensions={w=8,h=2},
     desc="Utilise des balles de .9mm"
 }
@@ -264,6 +267,7 @@ InventoryItems["ump"] = {
     pickup_model=12,
     pickup_scale=1,
     name="UMP",
+    ammo="ammo_9_mm",
     dimensions={w=6,h=3},
     desc="Utilise des balles de .9mm"
 }
@@ -340,4 +344,32 @@ InventoryItems["mask_biohazard"] = {
     dimensions={w=2,h=2},
     desc="Permet de survivre aux radiations",
     modelId=838, x=4,y=5,z=0,rx=-90,ry=90,rz=-90,attach_type="head"
+}
+InventoryItems["blue_pull"] = {
+    name="Pull Bleu",
+    dimensions={w=3,h=3},
+    desc="Un pull bleu",
+    outfit_type="top",
+    is_outfit=true
+}
+InventoryItems["red_pull"] = {
+    name="Pull Rouge",
+    dimensions={w=3,h=3},
+    desc="Un pull rouge",
+    outfit_type="top",
+    is_outfit=true
+}
+InventoryItems["black_pull"] = {
+    name="Pull Noir",
+    dimensions={w=3,h=3},
+    desc="Un pull noir",
+    outfit_type="top",
+    is_outfit=true
+}
+InventoryItems["black_pant"] = {
+    name="Pantalon Noir",
+    dimensions={w=2,h=4},
+    desc="Un pantalon noir",
+    outfit_type="pant",
+    is_outfit=true
 }

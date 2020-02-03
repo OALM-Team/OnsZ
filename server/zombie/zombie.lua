@@ -86,6 +86,7 @@ function CreateZombie(x,y,z, spawnId)
     --end, math.random(10000, 15000))
     Zombies[zombie.npc] = zombie
     SetNPCRespawnTime(zombie.npc, 60000 * 5)
+    SetNPCPropertyValue(zombie.npc, "is_zombie", true, true)
     SetNPCPropertyValue(zombie.npc, "model_id", 21, true)
     SetNPCPropertyValue(zombie.npc, "_isAlive", true, true)
     print("new zombie spawned: "..zombie.id)

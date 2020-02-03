@@ -36,15 +36,30 @@ function UpdatePlayerOutfit(player)
   
   if GetPlayerPropertyValue(player, "_outfitTopId") then
     local topTemplate = OutfitsTemplate[GetPlayerPropertyValue(player, "_outfitTopId")]
-    SkeletalMeshComponent = GetPlayerSkeletalMeshComponent(player, "Clothing1")
+    SkeletalMeshComponent = GetPlayerSkeletalMeshComponent(player, "Clothing0")
     SkeletalMeshComponent:SetSkeletalMesh(USkeletalMesh.LoadFromAsset(topTemplate.model))
     local DynamicMaterialInstance = SkeletalMeshComponent:CreateDynamicMaterialInstance(0)
-    DynamicMaterialInstance:SetColorParameter("Clothing Color", FLinearColor(topTemplate.color.r,topTemplate.color.g,topTemplate.color.b, 1.0))
     SkeletalMeshComponent:SetRelativeScale3D(FVector(1.0, 1.01, 1.0))
     SkeletalMeshComponent:SetRelativeRotation(FRotator(0.0, 0.0, 0.0))
     SkeletalMeshComponent:SetRelativeLocation(FVector(0.0, 0.0, 0.0))
+
+    -- set colors
+    DynamicMaterialInstance:SetColorParameter("Clothing Color", FLinearColor(topTemplate.color.r,topTemplate.color.g,topTemplate.color.b, 1))
+    DynamicMaterialInstance:SetColorParameter("Diffuse color 2", FLinearColor(topTemplate.color.r,topTemplate.color.g,topTemplate.color.b, 1))
+    DynamicMaterialInstance:SetColorParameter("BaseColor", FLinearColor(topTemplate.color.r,topTemplate.color.g,topTemplate.color.b, 1))
+    DynamicMaterialInstance:SetColorParameter("Middle", FLinearColor(topTemplate.color.r,topTemplate.color.g,topTemplate.color.b, 1))
+    DynamicMaterialInstance:SetColorParameter("Collar", FLinearColor(topTemplate.color.r,topTemplate.color.g,topTemplate.color.b, 1))
+    DynamicMaterialInstance:SetColorParameter("Seleeves", FLinearColor(topTemplate.color.r,topTemplate.color.g,topTemplate.color.b, 1))
+    DynamicMaterialInstance:SetColorParameter("Diffuse color 3", FLinearColor(topTemplate.color.r,topTemplate.color.g,topTemplate.color.b, 1))
+    DynamicMaterialInstance:SetColorParameter("Diffuse color", FLinearColor(topTemplate.color.r,topTemplate.color.g,topTemplate.color.b, 1))
+    DynamicMaterialInstance:SetColorParameter("Diffuse color 4", FLinearColor(topTemplate.color.r,topTemplate.color.g,topTemplate.color.b, 1))
+    DynamicMaterialInstance:SetColorParameter("Dirt color", FLinearColor(topTemplate.color.r,topTemplate.color.g,topTemplate.color.b, 1))
+  
+    -- print decals
+    --DynamicMaterialInstance:SetTextureParameter("Print", UTexture2D.LoadFromFile("client/player/decals/onsz.png"))
+		--DynamicMaterialInstance:SetTextureParameter("Print2", UTexture2D.LoadFromFile("client/player/decals/onsz.png"))
   else
-    SkeletalMeshComponent = GetPlayerSkeletalMeshComponent(player, "Clothing1")
+    SkeletalMeshComponent = GetPlayerSkeletalMeshComponent(player, "Clothing0")
     SkeletalMeshComponent:SetSkeletalMesh(nil)
   end
     

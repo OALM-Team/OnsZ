@@ -50,13 +50,24 @@ function SpawnDropItem(x,y,z, itemId, itemObj)
             itemId = itemObj.itemId
         }
     }
+
+    Delay(60000 * 1, function()
+        if GroundItems[pickup] ~= nil then
+            DeleteGroundItem(GroundItems[pickup])
+        end
+    end)
 end
 
 AddRemoteEvent("Survival:GroundItem:ConfirmPickup", function(player)
     local x,y,z = GetPlayerLocation(player)
+    local character = CharactersData[tostring(GetPlayerSteamId(player))]
+
+    if character.is_dead == 1 then
+        return
+    end
+
     for _,groundItem in pairs(GroundItems) do
         if GetDistance3D(x, y, z, groundItem.x, groundItem.y, groundItem.z) < 130 then
-            local character = CharactersData[tostring(GetPlayerSteamId(player))]
             local success, item = TryAddItemToCharacter(player, groundItem.itemId)
             if success then
                 if groundItem.item ~= nil then
@@ -71,7 +82,11 @@ AddRemoteEvent("Survival:GroundItem:ConfirmPickup", function(player)
 end)
 
 function DeleteGroundItem(groundItem)
-    DestroyPickup(groundItem.pickup)
-    DestroyText3D(groundItem.text)
-    GroundItems[groundItem.pickup] = nil
+    if groundItem.pickup ~= nil then
+        DestroyPickup(groundItem.pickup)
+        DestroyText3D(groundItem.text)
+        GroundItems[groundItem.pickup] = nil
+        groundItem.text = nil
+        groundItem.pickup = nil
+    end
 end

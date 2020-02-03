@@ -111,6 +111,17 @@ function StoreCurrentWeapon(player)
         return
     end
 
+    local _, ammo, _ = GetPlayerWeapon(player, GetPlayerEquippedWeaponSlot(player))
+    local ammoTemplate = InventoryItems[template.ammo]
+    for i = 0, ammo, ammoTemplate.ammo_size do
+        if i + ammoTemplate.ammo_size <= ammo then
+            if not TryAddItemToCharacter(player, template.ammo) then
+                local x,y,z = GetPlayerLocation(player)
+                SpawnDropItem(x,y,z, template.ammo)
+            end
+        end
+    end
+
     if TryAddItemToCharacter(player, templateId) then
         SetPlayerWeapon(player, 1, 1, true, GetPlayerEquippedWeaponSlot(player), false)
     else

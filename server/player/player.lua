@@ -16,7 +16,7 @@ function OnPackageStart()
 
     CreateTimer(function()
         for _,player in pairs(GetAllPlayers()) do
-            AjustSleep(player, -1)
+            --AjustSleep(player, -1)
         end
     end, 140000 / FoodDrinkSleepRatio)
 
@@ -216,11 +216,15 @@ function AjustFood(player, ajustment)
     if ajustment > 0 then
         SetPlayerAnimation(player, "DRINKING")
     end
+    if character.is_dead == 1 then
+        return
+    end
 
     character.food = character.food + ajustment
 
     if character.food < 0 then
         character.food = 0
+        SetPlayerHealth(player, GetPlayerHealth() - 1)
     end
     if character.food > 100 then
         character.food = 100
@@ -238,6 +242,9 @@ function AjustDrink(player, ajustment)
     if character == nil then
         return
     end
+    if character.is_dead == 1 then
+        return
+    end
 
     if ajustment > 0 then
         SetPlayerAnimation(player, "DRINKING")
@@ -247,6 +254,7 @@ function AjustDrink(player, ajustment)
 
     if character.drink < 0 then
         character.drink = 0
+        SetPlayerHealth(player, GetPlayerHealth() - 1)
     end
     if character.drink > 100 then
         character.drink = 100
@@ -262,6 +270,9 @@ function AjustSleep(player, ajustment)
     
     local character = CharactersData[tostring(GetPlayerSteamId(player))]
     if character == nil then
+        return
+    end
+    if character.is_dead == 1 then
         return
     end
 

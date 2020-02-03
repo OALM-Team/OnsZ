@@ -86,6 +86,30 @@ LootboxesLootsType["zombie_1"] = {
             itemId = "capsule_1",
             slot = 1
         }
+    },
+    {
+        {
+            itemId = "blue_pull",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "red_pull",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "black_pull",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "black_pant",
+            slot = 0
+        }
     }
 }
 
