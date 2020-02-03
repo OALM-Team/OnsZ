@@ -5,7 +5,7 @@ function OnKeyPress(key)
             return
         end
         
-        CreateNotification("#ff0051", "Action impossible", "Pas encore disponible", 5000, 2)
+        --CreateNotification("#ff0051", "Action impossible", "Pas encore disponible", 5000, 2)
 		--CallRemoteEvent("Survival:Trader:RequestOpenTrader")
 	end
 end
