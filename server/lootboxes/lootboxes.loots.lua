@@ -89,6 +89,38 @@ LootboxesLootsType["zombie_1"] = {
     },
     {
         {
+            itemId = "capsule_1",
+            slot = 0
+        },
+        {
+            itemId = "capsule_1",
+            slot = 1
+        },
+        {
+            itemId = "capsule_1",
+            slot = 2
+        }
+    },
+    {
+        {
+            itemId = "capsule_1",
+            slot = 0
+        },
+        {
+            itemId = "capsule_1",
+            slot = 1
+        },
+        {
+            itemId = "capsule_1",
+            slot = 2
+        },
+        {
+            itemId = "capsule_1",
+            slot = 3
+        }
+    },
+    {
+        {
             itemId = "blue_pull",
             slot = 0
         }
@@ -123,12 +155,6 @@ LootboxesLootsType["weapon_1"] = {
     {
         {
             itemId = "mask_2",
-            slot = 0
-        }
-    },
-    {
-        {
-            itemId = "mask_biohazard",
             slot = 0
         }
     },

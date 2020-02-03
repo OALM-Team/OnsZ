@@ -271,6 +271,27 @@ InventoryItems["ump"] = {
     dimensions={w=6,h=3},
     desc="Utilise des balles de .9mm"
 }
+InventoryItems["ak47"] = {
+    is_weapon=true,
+    id_weapon=12,
+    pickup_model=14,
+    pickup_scale=1,
+    name="AK47",
+    ammo="ammo_7_62",
+    dimensions={w=8,h=3},
+    desc="Utilise des balles de 7.62"
+}
+InventoryItems["ammo_7_62"] = {
+    is_weapon=false,
+    is_ammo=true,
+    pickup_model=23,
+    pickup_scale=1,
+    ammo_weapons={12},
+    ammo_size=31,
+    name="Cartouche 7.62 Soviet",
+    dimensions={w=2,h=1},
+    desc="Cartouche pour AK47"
+}
 
 --------- OUTFITS ----------
 InventoryItems["green_pant"] = {

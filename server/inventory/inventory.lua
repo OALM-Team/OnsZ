@@ -578,3 +578,32 @@ function SaveCharacterStorages(character)
         UpdateStorage(storage)
     end
 end
+
+function GetItemCountInStorages(player, itemId)
+    local character = CharactersData[tostring(GetPlayerSteamId(player))]
+    local i = 0
+    for k,storage in pairs(GetStoragesByCharacterId(character.id)) do
+        for _,item in pairs(storage.items) do
+            if item.itemId == itemId then
+                i = i + 1
+            end
+        end
+    end
+    return i
+end
+
+function RemoveMultipleItemsInStorages(player, itemId, count)
+    local character = CharactersData[tostring(GetPlayerSteamId(player))]
+    local i = 0
+    for k,storage in pairs(GetStoragesByCharacterId(character.id)) do
+        for _,item in pairs(storage.items) do
+            if item.itemId == itemId then
+                i = i + 1
+                RemoveItem(player, storage.id, item.uid)
+                if i == count then
+                    return
+                end
+            end
+        end
+    end
+end
