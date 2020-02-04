@@ -53,7 +53,7 @@ end)
 function OnPackageStart()
     CreateTimer(function()
         CheckVehicleSpawn()
-	end, 60000*10)
+	end, 60000*3)
 	
 	CreateTimer(function()
         CheckFuel()
@@ -68,7 +68,7 @@ AddEvent("OnPackageStart", OnPackageStart)
 
 function CheckVehicleSpawn()
 	for _,spawn in pairs(VehiclesSpawns) do
-		if Random(1, 5) == 1 then
+		if Random(1, 2) == 1 then
 			SpawnVehicle(spawn.vehicles[Random(1, tablelength(spawn.vehicles))], spawn)
 		end
 	end
