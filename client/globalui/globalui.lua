@@ -4,6 +4,7 @@ function OnPackageStart()
     CreateTimer(function()
         ShowHealthHUD(false)
         RefreshLifeAndArmor()
+        RefreshFuel()
     end, 300)
 
     ShowHealthHUD(false)
@@ -79,3 +80,34 @@ function AddAnnounce(playerName, content)
     ExecuteWebJS(GlobalUI, "addAnnounce(\""..playerName.."\", \""..content.."\")")
 end
 AddRemoteEvent("Survival:GlobalUI:AddAnnounce", AddAnnounce)
+
+function SetFuelState(state)
+    if GlobalUI == nil then
+        return
+    end
+    ExecuteWebJS(GlobalUI, "setFuelDisplay("..state..")")
+end
+
+function SetFuelValue(value)
+    if GlobalUI == nil then
+        return
+    end
+    ExecuteWebJS(GlobalUI, "setFuelValue("..value..")")
+end
+
+AddEvent("OnPlayerEnterVehicle", function(playerid, vehicle, seat)
+    if playerid == GetPlayerId() then
+        SetFuelState(1)
+    end
+end)
+
+AddEvent("OnPlayerLeaveVehicle", function(vehicle, seat)
+    SetFuelState(0)
+end)
+
+function RefreshFuel()
+    if IsPlayerInVehicle() then
+        local v = GetPlayerVehicle(GetPlayerId())
+        SetFuelValue(GetVehiclePropertyValue(v, "_fuel"))
+    end
+end

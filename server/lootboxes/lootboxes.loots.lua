@@ -37,6 +37,12 @@ LootboxesLootsType["zombie_1"] = {
     },
     {
         {
+            itemId = "gas",
+            slot = 0
+        }
+    },
+    {
+        {
             itemId = "green_pant",
             slot = 0
         }
@@ -227,6 +233,12 @@ LootboxesLootsType["weapon_1"] = {
 }
 
 LootboxesLootsType["basic"] = {
+    {
+        {
+            itemId = "gas",
+            slot = 0
+        }
+    },
     -- loot 1
     {
         {

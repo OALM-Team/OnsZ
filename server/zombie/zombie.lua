@@ -164,7 +164,6 @@ AddEvent("OnNPCDeath", function(npc, player)
     end
     if math.random(1, 5) == 1 then
         local lootbox = SpawnLootbox(x,y,z,"zombie_1")
-        lootbox.storage.items = {}
     end
     Delay(60000 * 5, function()
         DestroyNPC(zombie.npc)

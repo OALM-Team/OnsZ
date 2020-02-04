@@ -18,7 +18,8 @@ TraderLocations["basic_1"] = {
     shop={
         {itemId="water",price=1},
         {itemId="sandwish",price=1},
-        {itemId="rad_pill",price=2}
+        {itemId="rad_pill",price=2},
+        {itemId="gas",price=4}
     }
 }
 

@@ -143,6 +143,10 @@
     background: linear-gradient(90deg, rgba(255,252,0,1) 0%, rgba(204,181,0,1) 100%);
 }
 
+.character-fuel-progress {
+    background: linear-gradient(90deg, rgba(255,119,0,1) 0%, rgba(138,79,1,1) 100%);
+}
+
 #death-screen {
     position: fixed;
     top: 0;

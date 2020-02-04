@@ -101,6 +101,18 @@ function addAnnounce(playerName, content) {
   }, 15000)
 }
 
+function setFuelDisplay(state) {
+  if(state == 1) {
+    $("#fuel-container").show()
+  } else {
+    $("#fuel-container").hide()
+  }
+}
+
+function setFuelValue(value) {
+  $("#fuel-container .character-fuel-progress").css("width", value+"%");
+}
+
 class Color {
     constructor(r, g, b) {
       this.set(r, g, b);

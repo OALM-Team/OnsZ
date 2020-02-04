@@ -51,7 +51,7 @@ function SpawnDropItem(x,y,z, itemId, itemObj)
         }
     }
 
-    Delay(60000 * 1, function()
+    Delay(60000 * 5, function()
         if GroundItems[pickup] ~= nil then
             DeleteGroundItem(GroundItems[pickup])
         end
