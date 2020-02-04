@@ -60,7 +60,6 @@ function setPlayerLocation(x,y) {
 }
 
 $(() => {
-    //$("#map-canvas").draggable();
     map = L.map('map-canvas', {
         crs: L.CRS.Simple,
         center: [WorldToMapImgY(205554), WorldToMapImgX(163779)],
@@ -77,12 +76,10 @@ $(() => {
         className: 'pulse',
         html: '',
         iconSize: [15, 15],
-        iconAnchor: [0, 0]
+        iconAnchor: [7.5, 7.5]
     }) 
     }).addTo(map);
     setTimeout(() => {
         SwitchMode("mini");
     }, 300)
-    //L.marker([WorldToMapImgY(79290), WorldToMapImgX(127967)], {icon: icons["atm"]}).addTo(map);
-    //map.invalidateSize();
 })

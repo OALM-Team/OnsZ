@@ -595,15 +595,18 @@ end
 function RemoveMultipleItemsInStorages(player, itemId, count)
     local character = CharactersData[tostring(GetPlayerSteamId(player))]
     local i = 0
+    local itemToDelete = {}
     for k,storage in pairs(GetStoragesByCharacterId(character.id)) do
         for _,item in pairs(storage.items) do
-            if item.itemId == itemId then
+            if item.itemId == itemId and i < count then
+                table.insert(itemToDelete, {storage_id=storage.id, uid=item.uid})
                 i = i + 1
-                RemoveItem(player, storage.id, item.uid)
-                if i == count then
-                    return
-                end
             end
         end
+    end
+
+    for _, toDelete in pairs(itemToDelete) do
+        print("delete: ".. toDelete.uid)
+        RemoveItem(player, toDelete.storage_id, toDelete.uid)
     end
 end

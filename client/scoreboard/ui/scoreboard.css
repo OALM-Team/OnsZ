@@ -1,0 +1,24 @@
+.line-item {
+  width: 30%;
+  display: inline-block;
+  height: 40px;
+  background-color: #00000098;
+  line-height: 40px;
+  margin-right: 5px;
+  color: white;
+  font-family: 'GeosansLight';
+  text-align: left;
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+.line-item-id {
+  background-color: #00000080;
+  font-family: 'GeosansLight';
+  text-align: center;
+  width: 20%;
+  height: 36px;
+  font-size: 18px;
+  display: inline-block;
+  margin-right: 10px;
+}

@@ -11,7 +11,18 @@ function OnPackageStart()
 
     CreateTimer(function()
         local x,y,z = GetPlayerLocation()
-        ExecuteWebJS(MapUI, "setPlayerLocation("..x..", "..y..")")
+        local _, h = GetCameraRotation()
+        h = h + 90
+        if (h < 0) then
+			h = h + 360
+        end
+        
+        ExecuteWebJS(MapUI, "setPlayerLocation("..x..", "..y..", 0)")
+        --if not MapState then
+        --    ExecuteWebJS(MapUI, "setPlayerLocation("..x..", "..y..", "..h..")")
+        --else
+       -- end
+        
     end, 50)
 end
 AddEvent("OnPackageStart", OnPackageStart)

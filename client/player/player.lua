@@ -56,8 +56,8 @@ function UpdatePlayerOutfit(player)
     DynamicMaterialInstance:SetColorParameter("Dirt color", FLinearColor(topTemplate.color.r,topTemplate.color.g,topTemplate.color.b, 1))
   
     -- print decals
-    --DynamicMaterialInstance:SetTextureParameter("Print", UTexture2D.LoadFromFile("client/player/decals/onsz.png"))
-		--DynamicMaterialInstance:SetTextureParameter("Print2", UTexture2D.LoadFromFile("client/player/decals/onsz.png"))
+    DynamicMaterialInstance:SetTextureParameter("Print", UTexture2D.LoadFromFile("night_Survival/client/player/decals/onsz.png"))
+		DynamicMaterialInstance:SetTextureParameter("Print2", UTexture2D.LoadFromFile("night_Survival/client/player/decals/onsz.png"))
   else
     SkeletalMeshComponent = GetPlayerSkeletalMeshComponent(player, "Clothing0")
     SkeletalMeshComponent:SetSkeletalMesh(nil)

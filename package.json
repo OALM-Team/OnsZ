@@ -30,7 +30,9 @@
 		"server/scoreboard/scoreboard.lua",
 		"server/admin/admin.lua",
 		"server/trader/trader.config.lua",
-		"server/trader/trader.lua"
+		"server/trader/trader.lua",
+
+		"server/scoreboard/scoreboard.lua"
 	],
     "client_scripts": [
 		"client/common/json.lua",
@@ -50,7 +52,9 @@
 		"server/trader/trader.config.lua",
 		"client/trader/trader.lua",
 
-		"client/map/map.lua"
+		"client/map/map.lua",
+		
+		"client/scoreboard/scoreboard.lua"
 	],
 	"files": [
 		"client/common/fonts/GeosansLight.ttf",
@@ -127,6 +131,7 @@
 		"client/inventory/ui/icons/ammo_7_62.png",
 		
 		"client/player/decals/onsz.png",
+		"client/player/decals/supreme.png",
 		"client/player/decals/nuclear.png",
 		
 		"client/globalui/notif_1.mp3",
@@ -153,6 +158,10 @@
 		"client/map/ui/map.html",
 		"client/map/ui/map.js",
 		"client/map/ui/map.jpg",
-		"client/map/ui/icons/atm.png"
+		"client/map/ui/icons/atm.png",
+
+		"client/scoreboard/ui/scoreboard.css",
+		"client/scoreboard/ui/scoreboard.html",
+		"client/scoreboard/ui/scoreboard.js"
 	]
 }
