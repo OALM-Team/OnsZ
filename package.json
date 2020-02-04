@@ -48,7 +48,9 @@
 		"client/grounditem/grounditem.lua",
 		"client/noclip/cl_noclip.lua",
 		"server/trader/trader.config.lua",
-		"client/trader/trader.lua"
+		"client/trader/trader.lua",
+
+		"client/map/map.lua"
 	],
 	"files": [
 		"client/common/fonts/GeosansLight.ttf",
@@ -142,6 +144,15 @@
 		
 		"client/trader/ui/trader.html",
 		"client/trader/ui/trader.js",
-		"client/trader/ui/trader.css"
+		"client/trader/ui/trader.css",
+
+		
+		"client/map/ui/leaflet.css",
+		"client/map/ui/leaflet.js",
+		"client/map/ui/map.css",
+		"client/map/ui/map.html",
+		"client/map/ui/map.js",
+		"client/map/ui/map.jpg",
+		"client/map/ui/icons/atm.png"
 	]
 }
