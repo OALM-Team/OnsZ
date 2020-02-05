@@ -212,12 +212,19 @@ function AjustFood(player, ajustment)
     if character == nil then
         return
     end
+    if character.admin_level == 1 then
+        return
+    end
+
+    if character.is_dead == 1 then
+        return
+    end
 
     if ajustment > 0 then
         SetPlayerAnimation(player, "DRINKING")
-    end
-    if character.is_dead == 1 then
-        return
+        Delay(500, function()
+            SetPlayerAnimation(player, "STOP")
+        end)
     end
 
     character.food = character.food + ajustment
@@ -242,12 +249,19 @@ function AjustDrink(player, ajustment)
     if character == nil then
         return
     end
+    if character.admin_level == 1 then
+        return
+    end
     if character.is_dead == 1 then
         return
     end
 
     if ajustment > 0 then
         SetPlayerAnimation(player, "DRINKING")
+            
+        Delay(500, function()
+            SetPlayerAnimation(player, "STOP")
+        end)
     end
 
     character.drink = character.drink + ajustment

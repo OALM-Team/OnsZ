@@ -8,5 +8,7 @@ ZombieSpawns = {
     {id=uuid(), x=-23077,y=-7431,z=2073,radius=10000,max=25},
     {id=uuid(), x=-715,y=-15097,z=670,radius=3000,max=5},
     {id=uuid(), x=197771,y=196287,z=1289,radius=60000,max=120},
-    {id=uuid(), x=134362,y=192001,z=1292,radius=5000,max=3}
+    {id=uuid(), x=134362,y=192001,z=1292,radius=5000,max=3},
+    {id=uuid(), x=161046,y=-154194,z=1242,radius=50000,max=130},
+    {id=uuid(), x=-182879,y=-46664,z=1146,radius=60000,max=130}
 }

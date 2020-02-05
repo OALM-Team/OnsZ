@@ -319,18 +319,6 @@ LootboxesLootsType["basic"] = {
             itemId = "bag_2",
             slot = 0
         }
-    },
-    {
-        {
-            itemId = "bag_3",
-            slot = 0
-        }
-    },
-    {
-        {
-            itemId = "bag_4",
-            slot = 0
-        }
     }
 }
 
@@ -411,4 +399,145 @@ LootboxesLootsType["medical_1"] = {
             slot = 0
         }
     }
+}
+
+LootboxesLootsType["military_1"] = {
+    {
+        {
+            itemId = "bandage",
+            slot = 0
+        },
+        {
+            itemId = "bandage",
+            slot = 2
+        }
+    },
+    {
+        {
+            itemId = "bandage",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "rad_pill",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "rad_pill",
+            slot = 0
+        },
+        {
+            itemId = "rad_pill",
+            slot = 2
+        }
+    },
+    {
+        {
+            itemId = "ak47",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "bag_3",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "bag_4",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "ammo_7_62",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "ammo_7_62",
+            slot = 0
+        },
+        {
+            itemId = "ammo_7_62",
+            slot = 2
+        }
+    },
+    {
+        {
+            itemId = "gas",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "repair_kit",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "ammo_9_mm",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "ammo_9_mm",
+            slot = 0
+        },
+        {
+            itemId = "ammo_9_mm",
+            slot = 2
+        }
+    },
+    {
+        {
+            itemId = "ammo_9_mm",
+            slot = 0
+        },
+        {
+            itemId = "ammo_9_mm",
+            slot = 2
+        },
+        {
+            itemId = "ammo_9_mm",
+            slot = 4
+        }
+    },
+    {
+        {
+            itemId = "ammo_12_mm",
+            slot = 0
+        }
+    },
+    {
+        {
+            itemId = "ammo_12_mm",
+            slot = 0
+        },
+        {
+            itemId = "ammo_12_mm",
+            slot = 2
+        }
+    },
+    {
+        {
+            itemId = "ammo_12_mm",
+            slot = 0
+        },
+        {
+            itemId = "ammo_12_mm",
+            slot = 2
+        },
+        {
+            itemId = "ammo_12_mm",
+            slot = 4
+        }
+    },
 }

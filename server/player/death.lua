@@ -33,6 +33,10 @@ AddEvent("OnPlayerDeath", function(player)
         ClearStorage(storage)
     end
 
+    AjustFood(player, 100)
+    AjustDrink(player, 100)
+    AjustSleep(player, 100)
+
     CallRemoteEvent(player, "Survival:GlobalUI:SetDeathScreen", "true")
 end)
 

@@ -9,7 +9,9 @@ TraderLocations["weapon_1"] = {
         {itemId="deagle",price=4},
         {itemId="ammo_50_ae",price=2},
         {itemId="ak47",price=9},
-        {itemId="ammo_7_62",price=3}
+        {itemId="ammo_7_62",price=3},
+        {itemId="m4a1s",price=9},
+        {itemId="ammo_5_56",price=3}
     }
 }
 
@@ -19,7 +21,8 @@ TraderLocations["basic_1"] = {
         {itemId="water",price=1},
         {itemId="sandwish",price=1},
         {itemId="rad_pill",price=2},
-        {itemId="gas",price=4}
+        {itemId="gas",price=4},
+        {itemId="repair_kit",price=4}
     }
 }
 

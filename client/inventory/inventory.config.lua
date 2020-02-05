@@ -73,6 +73,13 @@ InventoryItems["bandage"] = {
     pickup_scale=0.2,
     desc="En cas de blessure"
 }
+InventoryItems["repair_kit"] = {
+    name="Repair Kit",
+    dimensions={w=2,h=2},
+    pickup_model=551,
+    pickup_scale=1,
+    desc="Pour réparer un véhicule"
+}
 
 -------------- BAGS ---------------
 InventoryItems["bag_1"] = {
@@ -291,6 +298,27 @@ InventoryItems["ammo_7_62"] = {
     name="Cartouche 7.62 Soviet",
     dimensions={w=2,h=1},
     desc="Cartouche pour AK47"
+}
+InventoryItems["m4a1s"] = {
+    is_weapon=true,
+    id_weapon=11,
+    pickup_model=14,
+    pickup_scale=1,
+    name="M4A1-S",
+    ammo="ammo_7_62",
+    dimensions={w=6,h=4},
+    desc="Utilise des balles de 5.56"
+}
+InventoryItems["ammo_5_56"] = {
+    is_weapon=false,
+    is_ammo=true,
+    pickup_model=23,
+    pickup_scale=1,
+    ammo_weapons={11},
+    ammo_size=31,
+    name="Cartouche 5.56",
+    dimensions={w=2,h=1},
+    desc="Cartouche pour M4A1-S"
 }
 
 --------- OUTFITS ----------
