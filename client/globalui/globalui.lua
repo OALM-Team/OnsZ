@@ -1,4 +1,6 @@
 LastRadiationSoundPlayed = nil
+CurrentStamina = 100
+RecoveringStamina = false
 
 function OnPackageStart()
     CreateTimer(function()
@@ -6,6 +8,34 @@ function OnPackageStart()
         RefreshLifeAndArmor()
         RefreshFuel()
     end, 300)
+
+    CreateTimer(function()
+        local weaponId = GetPlayerWeapon(GetPlayerEquippedWeaponSlot())
+        if IsShiftPressed() and weaponId == 1 and GetPlayerMovementMode() == 3 then
+            CurrentStamina = CurrentStamina - 0.4
+
+            if CurrentStamina <= 0 then
+                CurrentStamina = 0
+                RecoveringStamina = true
+                CallRemoteEvent("Survival:Player:RecoverStamina")
+            end
+        else
+            --SetCameraFoV(90)
+            if CurrentStamina < 100 then
+                if RecoveringStamina then
+                    CurrentStamina = CurrentStamina + 0.6
+                else
+                    CurrentStamina = CurrentStamina + 0.25
+                end
+            end
+            
+            if CurrentStamina >= 100 then
+                CurrentStamina = 100
+                RecoveringStamina = false
+            end
+        end
+        RefreshStamina()
+    end, 100)
 
     ShowHealthHUD(false)
 
@@ -110,4 +140,16 @@ function RefreshFuel()
         local v = GetPlayerVehicle(GetPlayerId())
         SetFuelValue(GetVehiclePropertyValue(v, "_fuel"))
     end
+end
+
+function RefreshStamina()
+    if GlobalUI == nil then
+        return
+    end
+    if RecoveringStamina then
+        ExecuteWebJS(GlobalUI, "recoverStamina(1)")
+    else
+        ExecuteWebJS(GlobalUI, "recoverStamina(0)")
+    end
+    ExecuteWebJS(GlobalUI, "setStaminaValue("..CurrentStamina..")")
 end

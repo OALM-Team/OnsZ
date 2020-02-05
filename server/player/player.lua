@@ -329,3 +329,11 @@ AddEvent("OnPlayerChat", function(playerid, text)
     end
 	return false
 end)
+
+AddRemoteEvent("Survival:Player:RecoverStamina", function(player)
+    SetPlayerAnimation(player, "SIT07")
+    Delay(5000, function()
+        SetPlayerAnimation(player, "STOP")
+    end)
+end)
+

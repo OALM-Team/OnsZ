@@ -12,6 +12,10 @@ AddEvent("OnPlayerNetworkUpdatePropertyValue", function(player, name, value)
   end
 end)
 
+AddEvent("OnPlayerTalking", function(player)
+	SetPlayerLipMovement(player)
+end)
+
 AddEvent("OnPlayerStreamIn", function(player)
   UpdatePlayerOutfit(player)
 end)

@@ -38,6 +38,7 @@
 		"client/common/json.lua",
 		"client/player/player.outfit.lua",
 		"client/player/player.lua",
+		"client/player/camera.lua",
 		"client/cinematic/cinematic.lua",
 		"client/cinematic/cinematic.texts.lua",
 		"client/weather/weather.lua",

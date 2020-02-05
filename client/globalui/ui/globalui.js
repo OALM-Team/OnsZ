@@ -113,6 +113,23 @@ function setFuelValue(value) {
   $("#fuel-container .character-fuel-progress").css("width", value+"%");
 }
 
+function setStaminaValue(value) {
+  if(value >= 100) {
+    $("#stamina-container").hide()
+  } else {
+    $("#stamina-container").show()
+    $("#stamina-container .progress-bar-progress").css("width", value+"%");
+  }
+}
+
+function recoverStamina(state) {
+  if(state == 1) {
+    $("#stamina-container .progress-bar-progress").css("background-color", "orange");
+  } else {
+    $("#stamina-container .progress-bar-progress").css("background-color", "white");
+  }
+}
+
 class Color {
     constructor(r, g, b) {
       this.set(r, g, b);
