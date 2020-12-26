@@ -83,7 +83,7 @@ function SpawnLootbox(x,y,z,type,copyStorage)
     Storages[storage.id] = storage
     Lootboxes[lootbox.id] = lootbox
 
-    print("New lootbox spawned: "..lootbox.id)
+    --print("New lootbox spawned: "..lootbox.id)
     return lootbox
 end
 

@@ -89,7 +89,7 @@ function CreateZombie(x,y,z, spawnId)
     SetNPCPropertyValue(zombie.npc, "is_zombie", true, true)
     SetNPCPropertyValue(zombie.npc, "model_id", 21, true)
     SetNPCPropertyValue(zombie.npc, "_isAlive", true, true)
-    print("new zombie spawned: "..zombie.id)
+   -- print("new zombie spawned: "..zombie.id)
 end
 
 function PursuitEngage(player, npc)

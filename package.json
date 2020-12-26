@@ -32,7 +32,9 @@
 		"server/trader/trader.config.lua",
 		"server/trader/trader.lua",
 
-		"server/scoreboard/scoreboard.lua"
+		"server/scoreboard/scoreboard.lua",
+
+		"server/spaceship/spaceship.server.lua"
 	],
     "client_scripts": [
 		"client/common/json.lua",
@@ -55,7 +57,9 @@
 
 		"client/map/map.lua",
 		
-		"client/scoreboard/scoreboard.lua"
+		"client/scoreboard/scoreboard.lua",
+		
+		"client/spaceship/spaceship.client.lua"
 	],
 	"files": [
 		"client/common/fonts/GeosansLight.ttf",

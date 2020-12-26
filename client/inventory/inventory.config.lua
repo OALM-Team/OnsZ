@@ -305,7 +305,7 @@ InventoryItems["m4a1s"] = {
     pickup_model=14,
     pickup_scale=1,
     name="M4A1-S",
-    ammo="ammo_7_62",
+    ammo="ammo_5_56",
     dimensions={w=6,h=4},
     desc="Utilise des balles de 5.56"
 }

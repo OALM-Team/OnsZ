@@ -1,10 +1,5 @@
 GroundItems = {}
 
-AddCommand("test", function(player)
-    local x,y,z = GetPlayerLocation(player)
-    SpawnDropItem(x,y,z,"bag_1")
-end)
-
 function SpawnDropItem(x,y,z, itemId, itemObj)
     local x = x + math.random(-120,120)
     local y = y + math.random(-120,120)
